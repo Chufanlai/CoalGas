@@ -731,25 +731,31 @@ function createKey(){
 }
 
 function getOriginalText(){
-	var tempText=d3.select("#canvas")
-				   .append("text")
-				   .attr("x", "150")
-				   .attr("y", "150")
-				   .attr("id", "tempText")
-				   .attr("font-size", this.originTextSize)
-				   .attr("visibility", "hidden")
-				   .attr("font-family", "sans-serif")
-				   .text(this.string);
+	var tempText={};
 	if (this.vertical) {
-		tempText.attr("writing-mode", "tb-rl");
+		tempText =   d3.select("#canvas")
+					   .append("g")
+					   .attr("id", "tempText")
+					   ;
+		tempText.append("text")
+				.attr("class","texts")
+ 				.attr("font-size", this.originTextSize)
+ 				.selectAll("tspan")
+ 				    .data(this.string.split(""))
+ 				.enter().append("tspan")
+ 					.attr("x", 0)
+ 				    .attr("dy", "0.95em")
+ 					.text(function(d){return d;});
+	} else {
+		tempText = 	d3.select("#canvas")
+				   	  .append("text")
+				   	  .attr("id", "tempText")
+				   	  .attr("font-size", this.originTextSize)
+				   	  .attr("visibility", "hidden")
+				   	  .attr("font-family", "sans-serif")
+				   	  .text(this.string);
 	}
-	if(0){
-		if(this.vertical)
-			this.origin=[this.originTextSize, this.originTextSize*this.string.length/2];
-		else
-			this.origin=[this.originTextSize*this.string.length/2, this.originTextSize];
-	}
-	else{this.origin=[tempText.node().scrollWidth, tempText.node().scrollHeight]};
+	this.origin=[tempText.node().getBoundingClientRect().width, tempText.node().getBoundingClientRect().height];
 	tempText.remove();
 	this.asp=this.origin[1]/this.origin[0];
 	this.scales=[
