@@ -6,9 +6,15 @@ body{
    user-select: none;
 }
 
-path{
+path.normal{
 	stroke-width: 1;
 	stroke: #000000;
+	stroke-linejoin: round;
+	stroke-miterlimit: 10;
+}
+
+path.pipe{
+	fill: none;
 	stroke-linejoin: round;
 	stroke-miterlimit: 10;
 }
@@ -50,11 +56,6 @@ text{
 
 .thick_border{
 	stroke-width: 3;
-}
-
-.pipe{
-	stroke-width: 10;
-	stroke: #aaaaaa;
 }
 
 .cyan_border{

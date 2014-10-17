@@ -1,10 +1,11 @@
 $("#canvas").contextMenu('myMenu1', {
 	bindings: {
 	    'copy': function(t) {
+	    	var tang=Math.random()*2*Math.PI;
 			d3.selectAll(".sel")
 			.each(function(ind, d){
 				var id=d3.select(this).attr("id");
-				objects.copy(id);
+				objects.copy(id, tang);
 				return;
 			});
 	    },
@@ -40,34 +41,52 @@ $("#canvas").contextMenu('myMenu1', {
 			});
 	    },
 	    'edit': function(t){
-	    	textEdit();
+	    	if(objects.type(Mouse.rightID)=="text")
+	    		textEdit();
+	    	if(objects.type(Mouse.rightID)=="connection")
+	    		connectEdit();
 	    },
 	    'addConnection': function(t){
 	    	Mouse.connect=true;
+			if(Mouse.connect){
+				var pos=Mouse.rightPos;
+				svg.append("g")
+				.attr("class","tempConnect")
+				.append("path")
+				.attr("d","M"+pos[0]+","+pos[1]+" L"+pos[0]+","+pos[1])
+				.attr("stroke","#AAA")
+				.attr("stroke-width",10)
+				.attr("class","pipe");
+				Mouse.connectSize=[pos,pos];
+				Mouse.connectStart=pos;
+				Mouse.connectPath.push("M"+pos[0]+","+pos[1]+" ");
+				Mouse.connectPath.push(" ");
+			}
 	    }
 	},
 	onShowMenu: function(e, menu) {
-		if(d3.select($(e.target).parent()[0]).classed("object"))
-			Mouse.rightObj=$(e.target).parent().attr("id");
-		else
-			Mouse.rightObj=undefined;
-        if (!Mouse.rightObj) {
+		if(!Mouse.connect){
+			if(d3.select($(e.target).parent()[0]).classed("object"))
+				Mouse.rightID=$(e.target).parent().attr("id");
+			else
+				Mouse.rightID=undefined;
+		}
+        if (!Mouse.rightID) {
           	$('#addConnection', menu).remove();
           	$('#edit', menu).remove();        		
         }
         else{
-        	if(!d3.select("#"+Mouse.rightObj).classed("sel")){
+        	if(!d3.select("#"+Mouse.rightID).classed("sel")){
 	          	$('#addConnection', menu).remove();
 	          	$('#edit', menu).remove();        		
         	}
         	else{
-	        	if(objects.type(Mouse.rightObj)=='text'){
+	        	if(objects.type(Mouse.rightID)=='text'){
 	          		$('#addConnection', menu).remove();
 	        	}
 	        	else{
-	        		if(objects.type(Mouse.rightObj)=='connection'){
+	        		if(objects.type(Mouse.rightID)=='connection'){
 	          			$('#addConnection', menu).remove();
-	          			$('#copy', menu).remove();
 	        		}
 	        		else
 	          			$('#edit', menu).remove();
@@ -105,7 +124,7 @@ $("#plus").on("click",function(e){
 			break;
 		}
 		var tang=Math.random()*Math.PI/2;
-		var o=objects.create([Math.cos(tang)*rand_r,Math.cos(tang)*rand_r],tsize,0,selObj+"_"+objects.ID[selObj],selObj,0, []); //AJI changed here
+		var o=objects.create([Math.cos(tang)*rand_r,Math.cos(tang)*rand_r],tsize,0,selObj+"_"+objects.ID[selObj],selObj,0); //AJI changed here
 		o.init();
 		objects.array[selObj].push(o);
 		objects.ID[selObj]++;
@@ -113,6 +132,20 @@ $("#plus").on("click",function(e){
 });
 
 $("#plus").tooltip();
+
+$("#slider").slider({
+    animate: true,
+    max: 10,
+    min: 1,
+    range: false,
+    step: 1,
+    value: 10,
+    slide:function(event, ui) {
+                $("#showWidth")[0].innerHTML="Width: "+ui.value;
+				var o=objects.find(connectTarget);
+				o.change(o.color,ui.value);
+    }
+});
 
 $(".addText").on("click",function(e){
 	if(d3.select(this).classed("horizontal"))
@@ -132,8 +165,17 @@ $("#setText").on("click", function (e) {
 	}
 });
 
+$("#setConnect").on("click", function (e) {
+	if(connectTarget!=""){
+		var o=objects.find(connectTarget);
+		var c=$("#ConnectColorPicker").val();
+		var w=$("#slider").slider("value");
+		o.change(c,w);
+	}
+});
+
 (function(){
-	var color=$("#colorPicker");
+	var color=$("#TextColorPicker");
 	var title=$("#inputContent");
 	var mycolor;
 
@@ -141,15 +183,15 @@ $("#setText").on("click", function (e) {
 		title.css("color",this.value)
 	});
 
-	mycolor=$("#colorPicker").cxColor();
+	mycolor=$("#TextColorPicker").cxColor();
+})();
 
-	$("#btn_red").bind("click",function(){
-		mycolor.color("#ff0000");
-	});
+(function(){
+	var color=$("#ConnectColorPicker");
+	var mycolor;
 
-	$("#btn_show").bind("click",function(){
-		mycolor.show();
-	});
+	mycolor=$("#ConnectColorPicker").cxColor();
+	mycolor.color("#AAA");
 })();
 
 $(".objectSel").on("click",function(e){
@@ -220,7 +262,7 @@ d3.select("#canvas")
 //AJI changed here
 function addMyText(string, vertical, color) {
 	var tang=Math.random()*Math.PI/2;
-	var o=objects.create([Math.cos(tang)*rand_r,Math.cos(tang)*rand_r],init_size*3,0,"text"+"_"+objects.ID["text"],"text",0, [string, vertical, color]);
+	var o=objects.create([Math.cos(tang)*rand_r,Math.cos(tang)*rand_r],init_size*3,0,"text"+"_"+objects.ID["text"],"text",[string, vertical, color]);
 	o.init();
 	objects.array["text"].push(o);
 	objects.ID["text"]++;
@@ -260,8 +302,10 @@ function mousedown(){
 }
 
 function press(){
-	if(d3.event.which!=1)
+	if(d3.event.which!=1){
+		Mouse.rightPos=d3.mouse($("#canvas")[0]);
 		return;
+	}
 	if(!Mouse.mouseOn){
 		Mouse.mouseOn=true;
 		var pos=d3.mouse($("#canvas")[0]);
@@ -330,12 +374,21 @@ function press(){
 				Mouse.mouseObj=[objects.find(Mouse.mouseID)];
 			}
 		}
-	}	
+	}
 }
 
 function move(){
 	if(Mouse.mouseOut)
 		Mouse.mouseOut=false;
+	if(Mouse.connect){
+		var pos=d3.mouse($("#canvas")[0]);
+		var t="";
+		for(var i=0;i<Mouse.connectPath.length-1;i++)
+			t=t+Mouse.connectPath[i];
+		var tpos=getPath(Mouse.connectStart, pos);
+		$(".tempConnect path")
+		.attr("d",t+" L"+tpos[0]+","+tpos[1]);
+	}
 	if(Mouse.mouseOn){
 		if(!Mouse.dragging)
 			Mouse.dragging=true;
@@ -454,8 +507,8 @@ function move(){
 		}
 	}
 	else{
+		var pos=d3.mouse(this);
 		if(Mouse.brush){
-			var pos=d3.mouse(this);
 			var wid=pos[0]-Mouse.mousePos[0],
 			hei=pos[1]-Mouse.mousePos[1];
 			var tpos=[Mouse.mousePos[0]+(wid>0?0:wid),
@@ -465,6 +518,8 @@ function move(){
 			.attr("y",tpos[1])
 			.attr("width",Math.abs(wid))
 			.attr("height",Math.abs(hei));
+		}
+		else{
 		}
 	}
 }
@@ -476,6 +531,26 @@ function out(){
 function release(){
 	if(d3.event.which!=1)
 		return;
+	if(Mouse.connect){
+		var pos=d3.mouse($("#canvas")[0]);
+		var tpos=getPath(Mouse.connectStart, pos);
+		Mouse.connectPath[Mouse.connectPath.length-1]="L"+(tpos[0])+","+(tpos[1])+" ";
+		Mouse.connectSize[0]=[Math.min(Mouse.connectSize[0][0],tpos[0]),Math.min(Mouse.connectSize[0][1],tpos[1])];
+		Mouse.connectSize[1]=[Math.max(Mouse.connectSize[1][0],tpos[0]),Math.max(Mouse.connectSize[1][1],tpos[1])];
+		Mouse.connectStart=tpos;
+		Mouse.connectPath.push(" ");
+		if(Mouse.mouseObj){
+			Mouse.connect=false;
+			var t="";
+			for(var i=0;i<Mouse.connectPath.length-1;i++)
+				t=t+Mouse.connectPath[i];
+			var tsize=[Mouse.connectSize[1][0]-Mouse.connectSize[0][0]+16, Mouse.connectSize[1][1]-Mouse.connectSize[0][1]+16];
+			connect(Mouse.rightID, Mouse.mouseObj.name, [Mouse.connectSize[0][0]-8, Mouse.connectSize[0][1]-8], tsize, t);
+			Mouse.connectPath=[];
+			Mouse.connectStart=[];
+			Mouse.connectSize=[];
+		}
+	}
 	if(Mouse.brush){
 		var o=d3.select("#brush");
 		var tpos=[parseFloat(o.attr("x")),parseFloat(o.attr("y"))];
@@ -533,11 +608,6 @@ function release(){
 					.classed("selFrame",true);
 					o.classed("sel",true);
 				}
-				if(Mouse.connect){
-					var tcpos=objects.find(Mouse.mouseID).pos;
-					tcpos=[tcpos[0]+Mouse.mousePos[0][0],tcpos[1]+Mouse.mousePos[0][1]];
-					connect(Mouse.rightPos,Mouse.rightObj,tcpos,Mouse.mouseObj);
-				}
 			}
 		}
 		else{
@@ -574,10 +644,11 @@ function keydown(e){
 		});		
 	}
 	if(Key.ctrl && d3.event.keyCode==86){
+		var tang=Math.random()*2*Math.PI;
 		if(clipboard[0])
 		$(clipboard)
 		.each(function(ind, d){
-			objects.copy(d);
+			objects.copy(d,tang);
 			return;
 		});		
 	}
@@ -662,7 +733,6 @@ function resetMouse(){
 	Mouse.mouseID="";
 	Mouse.mouseObj=undefined;
 	Mouse.resizeOrd=-1;
-	Mouse.connect=false;
 }
 
 function deleteSel(){
@@ -688,17 +758,39 @@ function textEdit(){
 	if(this.id && objects.type(this.id)=="text")
 		textTarget=this.id;
 	else
-		textTarget=Mouse.rightObj;
+		textTarget=Mouse.rightID;
+}
+
+function connectEdit(){
+	$("#inputConnect").modal({
+		show: true,
+		keyboard: false
+	});
+	if(this.id && objects.type(this.id)=="connection")
+		connectTarget=this.id;
+	else
+		connectTarget=Mouse.rightID;
+}
+
+function changeConnection(color, width){
+	this.band=width;
+	this.color=color;
+	this.attr[4]=width;
+	this.attr[3]=color;
+	$("#"+this.name+" path")
+	.attr("stroke-width",this.band)
+	.attr("stroke",this.color);
 }
 
 function changeText(string){
 	var tsize=this.size.slice(0);
-	this.color=$("#colorPicker").val();
+	this.color=$("#TextColorPicker").val();
 	$("#"+this.name+" text")
 	.text(string)
 	.attr("fill",this.color)
 	.attr("stroke",this.color);
 	this.string=string;
+	this.attr=[this.string,this.vertical,this.color];
 	this.getOriginalText();
 	if(!this.vertical)
 		this.size[0]=this.size[1]/this.asp;
@@ -717,9 +809,28 @@ function changeText(string){
 	changeFrame(this.name,this.pos,this.size,true,this.rotate%180!=0);
 }
 
-function connect(startPos, start, endPos, end){
-	var o=createConnection(startPos, start, endPos, end, "connection_"+objects.ID["connection"], [], 0);
-	o.init();	
+function connect(startID, endID, pos, size, path){
+	var o=objects.create(pos, size, 0, "connection_"+objects.ID["connection"], "connection", [startID, endID, path, "#AAA", 10, size]);
+	o.init();
 	objects.array["connection"].push(o);
 	objects.ID["connection"]++;
+}
+
+function getPath(start, end){
+	var tx=end[0]-start[0];
+	var ty=start[1]-end[1];
+	if(tx==0)
+		return [start[0], end[1]];
+	var t=ty/tx;
+	if(Math.abs(t)<Math.tan(Math.PI/8))
+		return [end[0], start[1]];
+	else
+		if(Math.abs(t)<Math.tan(Math.PI/8*3)){
+			var sx=tx/Math.abs(tx),sy=ty/Math.abs(ty);
+			var l=Math.sqrt(tx*tx*2);
+			var s=Math.abs((tx*tx+ty*Math.abs(tx)*sy)/(l*Math.sqrt(2)));
+			return [start[0]+s*sx, start[1]-s*sy];
+		}
+		else
+			return [start[0], end[1]];
 }

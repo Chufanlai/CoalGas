@@ -212,7 +212,7 @@ function createGauge(pos, width, rotate, name, value){
 	o.size=[width,width*o.asp];
 	o.rotate=rotate;
 	o.name=name;
-	o.value=value;
+	o.attr=value;
 	o.maxHeight;
 	
 	o.rects;
@@ -621,24 +621,25 @@ function createCapacitor(pos, width, rotate, name){
 }
 
 //AJI changed here
-function createText(pos, width, rotate, vertical, string, color, name) {
+function createText(pos, width, rotate, value, name) {
 	var o={};
 
 	o.origin=[];
 	o.asp;
 	o.scales=[];
 	o.originTextSize=32;
-	o.string=string;
-	o.vertical=vertical;
+	o.string=value[0];
+	o.vertical=value[1];
 	o.getOriginalText=getOriginalText;
 	o.getOriginalText();
 
-	o.color=color;
+	o.color=value[2];
 	o.pos=pos;
-	var twidth=width/(vertical?o.asp:1);
+	var twidth=width/(o.vertical?o.asp:1);
 	o.size=[twidth,twidth*o.asp];
 	o.rotate=rotate;
 	o.name=name;
+	o.attr=value.slice(0);
 
 	o.init=initText;
 	o.show=showText;
@@ -648,24 +649,30 @@ function createText(pos, width, rotate, vertical, string, color, name) {
 	return o;
 }
 
-function createConnection(startPos, start, endPos, end, name, size, rotate){
+function createConnection(pos, size, rotate, name, value){
 	var o={};
 
-	o.origin;
-	o.scales=[];
+	o.origin=value[5];
+	o.scales=[
+	d3.scale.linear().domain([0,o.origin[0]]).range([0,1]),
+	d3.scale.linear().domain([0,o.origin[1]]).range([0,1])];
+	o.asp=o.origin[1]/o.origin[0];
 	o.name=name;
-	o.pos=startPos;
+	o.pos=pos;
 	o.size=size;
-	o.rotate=0;
-	o.startPos=startPos;
-	o.start=start;
-	o.endPos=endPos;
-	o.end=end;
-	o.paths;
+	o.rotate=rotate;
+	o.start=value[0];
+	o.end=value[1];
+	o.paths=[value[2]];
+	o.color=value[3];
+	o.band=value[4];
+	o.attr=value.slice(0);
+	o.path_fills=["none"];
 
-	o.getPath=getConnectionPath;
+	//o.getPath=getConnectionPath;
 	o.init=initConnection;
 	o.show=showConnection;
+	o.revise=reviseConnection;
 	o.change=changeConnection;
 	o.draw=draw;
 
@@ -675,7 +682,7 @@ function createConnection(startPos, start, endPos, end, name, size, rotate){
 function createLoad(){
 	var o={};
 
-	o.header="Name,Pos,Width,Rotate,Value,TextAttr";
+	o.header="Type,Pos,Width,Rotate,Attr";
 	o.contents="";
 	o.illegal=false;
 	o.ready=false;
@@ -700,9 +707,12 @@ function createMouse(){
 	o.multiple=false;//multiple operation or not
 	o.resizeOrd=-1;
 	o.brush=false;//brush selection
-	o.rightObj="";//rightclick object
+	o.rightID="";//rightclick object
 	o.rightPos;//mouse rightclick position
-	o.connect="";//connect mode
+	o.connect=false;//connect mode
+	o.connectStart=[];
+	o.connectPath=[];
+	o.connectSize=[];
 
 	o.reset=resetMouse;
 

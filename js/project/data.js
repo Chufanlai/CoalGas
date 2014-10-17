@@ -4,22 +4,37 @@ function readLayout(file){
 		if(Load.illegal)
 			return;
 		if(id==0){
-			if(!t.Name || !t.Pos || !t.Width){
+			if(!t.Type || !t.Pos || !t.Width){
 				Load.illegal=true;
-				alert("Wrong data format!");
+				alert("Incorrect data format!");
 				return;
 			}
 		}			
 		var tpos=t.Pos;
 		tpos=[parseFloat(tpos.substring(0,tpos.indexOf("_"))),
 			parseFloat(tpos.substring(tpos.indexOf("_")+1,tpos.length))];
-		var type=objects.type(t.Name),textAttr=[];
+		var type=t.Type,tAttr=t.Attr,tsize;
 		var o;
-		if(type=="text"){
-			textAttr=t.TextAttr.split("|_|");
-			textAttr[1]=(textAttr[1]=="true");
+		if(type=="text" || type=="connection"){
+			tAttr=[];
+			tAttr=t.Attr.split("|_|");
+			if(type=="text"){
+				tsize=parseFloat(t.Width);
+				tAttr[1]=(tAttr[1]=="true");
+			}
+			if(type=="connection"){
+				tAttr[2]=tAttr[2].replace(RegExp("#","g"), ",");
+				tAttr[2]=tAttr[2].replace(RegExp("_","g"), " ");
+				tAttr[5]=tAttr[5].split("#");
+				tAttr[5]=[parseFloat(tAttr[5][0]),parseFloat(tAttr[5][1])];
+				tsize=t.Width.split("_");
+				tsize[0]=parseFloat(tsize[0]);
+				tsize[1]=parseFloat(tsize[1]);
+			}
 		}
-		o=objects.create(tpos,parseFloat(t.Width),parseFloat(t.Rotate),type+"_"+objects.ID[type],type,parseFloat(t.Value),textAttr);//need to change
+		else
+			tsize=parseFloat(t.Width);
+		o=objects.create(tpos,tsize,parseFloat(t.Rotate),type+"_"+objects.ID[type],type,tAttr);//need to change
 		o.init();
 		objects.array[type].push(o);
 		objects.ID[type]++;
@@ -60,18 +75,19 @@ function delObj(array, id){
 		array.splice(ord,1);
 }
 
-function copyObject(id){
+function copyObject(id, tang){
 	var o=this.find(id);
 	var type=this.type(id);
-	var tang=0.25*Math.PI;
-	var textAttr=(type=="text")?[o.string,o.vertical,o.color]:[];
-	var tsize;
-	if(type=="text" && o.vertical){
-		tsize=o.size[1];
+	var tsize, to;
+	if(type=="connection"){
+		tsize=o.size;
 	}
 	else
-		tsize=o.size[0];
-	var to=this.create([o.pos[0]+rand_r*Math.cos(tang),o.pos[1]+rand_r*Math.sin(tang)],tsize,o.rotate,type+"_"+objects.ID[type],type,o.value,textAttr);
+		if(type=="text" && o.vertical)
+			tsize=o.size[1];
+		else
+			tsize=o.size[0];
+	var to=this.create([o.pos[0]+rand_r*Math.cos(tang),o.pos[1]+rand_r*Math.sin(tang)],tsize,o.rotate,type+"_"+objects.ID[type],type,o.attr);
 	to.init();
 	this.array[type].push(to);
 	this.ID[type]++;
@@ -94,8 +110,24 @@ function clearObjects(){
 }
 
 function saveObject(id){
-	var o=this.find(id);
-	return o.name+","+o.pos[0]+"_"+o.pos[1]+","+o.size[0]+","+o.rotate+","+o.value+","+o.string+"|_|"+o.vertical+"|_|"+o.color;
+	var o=this.find(id), type=this.type(id);
+	var tsize=o.size[0],tattr=o.attr;
+	if(type=="text"){
+		if(o.vertical)
+			tsize=o.size[1];
+		tattr=o.attr.join("|_|");
+	}
+	else
+		if(type=="connection"){
+			tattr=o.attr.slice(0);
+			tattr[2]=tattr[2].replace(RegExp(",","g"), "#");
+			tattr[2]=tattr[2].replace(RegExp(" ","g"), "_");
+			tattr[5]=tattr[5].join("#");
+			tattr=tattr.join("|_|");
+			tsize=o.size.join("_");
+		}
+	return this.type(o.name)+","+o.pos[0]+"_"+o.pos[1]+","+tsize+","+o.rotate+","+tattr;
+
 }
 
 function typeOf(id){
@@ -107,7 +139,7 @@ function typeOf(id){
 	return type;
 }
 
-function createObject(pos, width, rotate, name, type, value, textAttr){//Change here
+function createObject(pos, width, rotate, name, type, value){//Change here
 	switch(type){
 		case "bucket":
 			return createBucket(pos, width, rotate, name);
@@ -182,7 +214,10 @@ function createObject(pos, width, rotate, name, type, value, textAttr){//Change 
 			return createMonitoring(pos, width, rotate, name);
 		break;
 		case "text":
-			return createText(pos, width, rotate, textAttr[1], textAttr[0], textAttr[2], name);//AJI changed here
+			return createText(pos, width, rotate, value, name);//AJI changed here
+		break;
+		case "connection":
+			return createConnection(pos, width, rotate, name, value);
 		break;
 	}
 }
@@ -221,12 +256,12 @@ function changeGauge(value){
 		value=0;
 	if(value>1)
 		value=1;
-	this.value=value;
+	this.attr=value;
 	var o=$("#"+this.name+" rect");
 	o.attr("y",parseFloat(o.attr("y"))+parseFloat(o.attr("height"))-this.maxHeight*value);
 	o.attr("height",this.maxHeight*value);
 }
-
+/*
 function getConnectionPath(){
 	var tx=[this.startPos[0], this.endPos[0]].sort(d3.ascending), 
 		ty=[this.startPos[1], this.endPos[1]].sort(d3.ascending);
@@ -268,3 +303,4 @@ function getConnectionPath(){
 	this.paths=[tstart+tmiddle+tend];
 	this.path_fills=["none"];
 }
+*/

@@ -280,7 +280,7 @@ function showConveyer(){
 function initGauge(){
 	this.maxHeight=360.816;
 	this.rects=[
-	[0,373-this.maxHeight*this.value,22,this.maxHeight*this.value]
+	[0,373-this.maxHeight*this.attr,22,this.maxHeight*this.attr]
 	];
 	this.rect_fills=[
 	"#C4C43A"
@@ -800,27 +800,59 @@ function showText() {
 }
 
 function initConnection() {
-	this.getPath();
+	this.revise();
 	this.show();
 }
 
 function showConnection() {
 	drawFrame(this.pos, this.size, this.rotate%180!=0, this.name);
-	var g=svg.append("g")
-			 .attr("id", this.name)
-			 .attr("class", "movable connection")
-			 .attr("transform", "translate("+this.pos[0]+","+this.pos[1]+")scale("+this.scales[0](this.size[0])
-			 	+","+this.scales[1](this.size[1])+")"+"rotate("+this.rotate+","+this.origin[0]/2+","+this.origin[1]/2+")")
-			 .on("mouseover", appear)
-			 .on("mouseout", disappear)
-			 .on("mousedown", press);
-	this.draw(g, "path");
-	d3.selectAll($(g[0][0]).find("*"))
-	.classed("pipe",true);
+	if($(".tempConnect")[0]){
+		$(".tempConnect").insertAfter("#resize"+this.name);
+		$(".tempConnect path").attr("d",this.paths[0]);
+		d3.select(".tempConnect")
+		.classed("tempConnect",false)
+		.attr("id", this.name)
+		.attr("class", "movable object connection")
+		.attr("transform", "translate("+this.pos[0]+","+this.pos[1]+")scale("+this.scales[0](this.size[0])
+		+","+this.scales[1](this.size[1])+")"+"rotate("+this.rotate+","+this.origin[0]/2+","+this.origin[1]/2+")")
+		.on("mouseover", appear)
+		.on("mouseout", disappear)
+		.on("mousedown", press)
+		.on("dblclick", connectEdit);;		
+	}
+	else{
+		var g=svg.append("g")
+				 .attr("id", this.name)
+				 .attr("class", "movable object connection")
+				 .attr("transform", "translate("+this.pos[0]+","+this.pos[1]+")scale("+this.scales[0](this.size[0])
+				 +","+this.scales[1](this.size[1])+")"+"rotate("+this.rotate+","+this.origin[0]/2+","+this.origin[1]/2+")")
+				 .on("mouseover", appear)
+				 .on("mouseout", disappear)
+				 .on("mousedown", press)
+			 	 .on("dblclick", connectEdit);;
+		this.draw(g, "path");
+		d3.selectAll($(g[0][0]).find("*"))
+		.attr("stroke",this.color)
+		.attr("stroke-width",this.band)
+		.classed("normal",false)
+		.classed("pipe",true);
+	}
 }
 
-function changeConnection(){
-
+function reviseConnection(){
+	if(!($(".tempConnect")[0]))
+		return;
+	var t=this.paths[0].split(" "), ta="";
+	for(var i=0;i<t.length-1;i++){
+		var tw=t[i].substring(1).split(",");
+		tw=[tw[0]-this.pos[0],tw[1]-this.pos[1]];
+		if(i==0)
+			ta=ta+"M"+tw[0]+","+tw[1]+" ";
+		else
+			ta=ta+"L"+tw[0]+","+tw[1]+" ";
+	}
+	this.paths[0]=ta;
+	this.attr[2]=ta;
 }
 
 function drawFrame(pos, size, rotate, id){
@@ -882,7 +914,8 @@ function draw(g, type){
 				var d=this.paths[i];
 				g.append("path")
 				.attr("d",d)
-				.attr("fill",this.path_fills[i]);
+				.attr("fill",this.path_fills[i])
+				.attr("class","normal");
 			}
 		break;
 		case "circle":

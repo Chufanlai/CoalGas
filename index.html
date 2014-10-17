@@ -7,8 +7,10 @@
 		<link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap.css" media="screen">	
 		<link rel="stylesheet" type="text/css" href="css/project/project.css" media="screen">
 		<link rel="stylesheet" type="text/css" href="css/tools/jquery.cxcolor/jquery.cxcolor.css" media="screen">
+		<link rel="stylesheet" type="text/css" href="css/tools/jquery-ui.css" media="screen">
 		<script type="text/javascript" src="js/jquery/jquery-2.1.1.js"></script>
 		<script type="text/javascript" src="js/jquery/jquery.mousewheel.js"></script>
+		<script type="text/javascript" src="js/jquery/jquery-ui-1.11.1.custom/jquery-ui.js"></script>
 		<script type="text/javascript" src="js/bootstrap/bootstrap.js"></script>
 		<script type="text/javascript" src="js/d3.v3/d3.v3.js"></script>
 		<script type="text/javascript" src="js/tools/svg-crowbar.js"></script>
@@ -152,17 +154,48 @@
 		      <div class="modal-body">
 		      	<div class="input-group input-group-md">
 		      		<div class="row">
-		      			<div class="col-lg-10 col-lg-offset-1" style="padding-right:2px">
+		      			<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-xs-offset-1" style="padding-right:2px">
 							<input type="text" class="form-control" id="inputContent" placeholder="Text Content ...">      				
 		      			</div>
-		      			<div class="col-lg-1" style="padding-left:2px;height:100%">
-		      				<input id="colorPicker" class="form-control input_cxcolor">
+		      			<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1" style="padding-left:2px;height:100%">
+		      				<input id="TextColorPicker" class="form-control input_cxcolor">
 						</div>
 		      		</div>
 				</div>
 		      </div>
 		      <div class="modal-footer">
 		        <button type="button" class="btn btn-default" data-dismiss="modal" id="setText">OK</button>
+		        <button type="button" class="btn btn-default" data-dismiss="modal" id="Cansel">Cansel</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		<!-- Modal -->
+		<div class="modal fade bs-example-modal-sm" id="inputConnect" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog modal-sm">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+		        <h4 class="modal-title" id="myModalLabel">Connection Edit</h4>
+		      </div>
+		      <div class="modal-body">
+	      		<div class="row" style="height:35px">
+	      			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="padding-right:2px">
+						<span id="showWidth">Width: 10</span>
+	      			</div>
+	      			<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8" style="padding-left:2px;height:100%">
+						<div id="slider"></div>      				
+	      			</div>
+	      		</div>
+	      		<div class="row">
+	      			<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">Color: </div>
+	      			<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+	      				<input id="ConnectColorPicker" class="form-control input_cxcolor">
+					</div>
+	      		</div>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal" id="setConnect">OK</button>
 		        <button type="button" class="btn btn-default" data-dismiss="modal" id="Cansel">Cansel</button>
 		      </div>
 		    </div>
@@ -765,7 +798,7 @@
 			.attr("fill","#489191")
 			.attr("stroke","#000")
 			.attr("id","background");
-			var selObj="", selSize="", textTarget="";
+			var selObj="", selSize="", textTarget="", connectTarget="";
 			var objTypes=["bucket","tank1","tank2","tank3","separator","feeder",
 			"valve1","valve2","valve3","valve4","valve5","valve6","valve7","valve8","valve9","valve10","valve11",
 			"conveyer","gauge","vibrating","capacitor","arrow","diode","monitoring","text","connection"];//Change here
