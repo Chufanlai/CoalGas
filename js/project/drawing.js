@@ -960,17 +960,29 @@ function draw(g, type){
 		break;
 		//AJI changed here
 		case "text":
-			var tx=this.vertical?(this.originTextSize*0.5):0,ty=this.vertical?0:(this.originTextSize*0.86)
-			var text=g.append("text")
-			 		.text(this.string)
-			 		.attr("fill", this.color)
-			 		.attr("stroke",this.color)
-			 		.attr("x", tx)
-			 		.attr("y", ty)
-			 		.attr("class","texts")
-					.attr("font-size", this.originTextSize);
+			var tx=this.vertical?(this.originTextSize*0.5):0, ty=this.vertical?0:(this.originTextSize*0.86);
+			var text={};
 			if (this.vertical) {
-				text.attr("writing-mode", "tb-rl");//Inable in FF
+				text =   g.append("text")
+							   .attr("class","texts")
+							   .attr("fill", this.color)
+			 				   .attr("stroke",this.color)
+ 							   .attr("font-size", this.originTextSize)
+ 							   .selectAll("tspan")
+ 							       .data(this.string.split(""))
+ 							   .enter().append("tspan")
+ 							   	   .attr("x", 0)
+ 							       .attr("dy", "0.95em")
+ 							       .text(function(d){return d;});
+			} else {
+				text = g.append("text")
+			 			.text(this.string)
+			 			.attr("fill", this.color)
+			 			.attr("stroke",this.color)
+			 			.attr("x", tx)
+			 			.attr("y", ty)
+			 			.attr("class","texts")
+						.attr("font-size", this.originTextSize);
 			};
 		break;
 	}
