@@ -798,7 +798,7 @@ function changeText(string){
  			    .data(string.split(""))
  			.enter().append("tspan")
  				.attr("x", 0)
- 			    .attr("dy", "0.95em")
+ 			    .attr("dy", "0.9em")
  			    .text(function(d){return d;});
 	} else {
 		$("#"+this.name+" text")
@@ -812,6 +812,9 @@ function changeText(string){
 	this.size[0]=d3.select("#"+this.name + " text").node().getBoundingClientRect().width;
 	this.size[1]=d3.select("#"+this.name + " text").node().getBoundingClientRect().height;
 	if(this.rotate%180!=0){
+		var ts=this.size[0];
+		this.size[0]=this.size[1];
+		this.size[1]=ts;
 		this.pos[0]=this.pos[0]+(tsize[0]-tsize[1])/2+(this.size[1]-this.size[0])/2;
 		this.pos[1]=this.pos[1]+(tsize[1]-tsize[0])/2+(this.size[0]-this.size[1])/2;
 	}
