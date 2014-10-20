@@ -83,7 +83,7 @@ text{
 .zoomFrame{
 	fill: none;
 	stroke: #F00;
-	stroke-width: 1;
+	stroke-width: 2;
 	stroke-dasharray: 10,10;
 }
 

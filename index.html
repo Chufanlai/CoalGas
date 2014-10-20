@@ -128,11 +128,8 @@
 						</div>
 					</div>					
 					<div class="btn-group">
-						<button class="btn btn-default" type="button" id="zoomin" data-toggle="tooltip" data-placement="top" title="No Object">
+						<button class="btn btn-default" type="button" id="zoom" data-toggle="tooltip" data-placement="top" title="No Object">
 							<span class="glyphicon glyphicon-zoom-in"></span>
-						</button>
-						<button class="btn btn-default" type="button" id="zoomout" data-toggle="tooltip" data-placement="top" title="No Object">
-							<span class="glyphicon glyphicon-zoom-out"></span>
 						</button>
 						<div class="btn-group">
 							<div class="dropdown">
@@ -797,7 +794,8 @@
 			var svg=d3.select("#canvas")
 			.attr("width","100%")
 			.attr("height",parseInt($(".svg-container").css("width"))/4*2)//parseInt($(".svg-container").css("height"))-180
-    		.append("g");
+    		.append("g")
+    		.attr("transform","scale(1,1)translate(0,0)");
 			svg.append("rect")
 			.attr("x",0)
 			.attr("y",0)
@@ -813,7 +811,7 @@
 			var objects=createObjects(objTypes);
 			var Mouse=createMouse(), Key=createKey(), Load=createLoad(), clipbord=[], init_text="Double click to edit";
 			var pt_r=4, init_size=80, min_wid=3, rand_r=20, svg_size=[parseFloat($("#canvas").css("width")),parseFloat($("#canvas").css("height"))];
-			var test;
+			var test, testzoom=true;
 		</script>
 	</body>
 </html>
