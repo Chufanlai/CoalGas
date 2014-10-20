@@ -584,7 +584,6 @@ function release(){
 	if(d3.event.which!=1)
 		return;
 	if(Mouse.zooming){
-		if(!Mouse.mouseOut){
 			if(!Mouse.zoomed){
 				Mouse.zoomed=true;
 				d3.select("#zoom span")
@@ -592,7 +591,6 @@ function release(){
 				.classed("glyphicon-zoom-out",true);
 			}
 			zoom(Mouse.zoomed);
-		}
 		$("#zoomFrame").remove();
 	}
 	if(Mouse.connect && Mouse.mouseID==""){
