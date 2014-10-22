@@ -99,7 +99,7 @@ function createTank2(pos, width, rotate, name){
 function createTank3(pos, width, rotate, name){
 	var o={};
 
-	o.origin=[335.629,949.853];
+	o.origin=[335.629,1148.872];
 	o.scales=[
 	d3.scale.linear().domain([0,o.origin[0]]).range([0,1]),
 	d3.scale.linear().domain([0,o.origin[1]]).range([0,1])];

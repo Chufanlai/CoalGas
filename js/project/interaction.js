@@ -191,21 +191,19 @@ $("#setConnect").on("click", function (e) {
 (function(){
 	var color=$("#TextColorPicker");
 	var title=$("#inputContent");
-	var mycolor;
 
 	color.bind("change",function(){
 		title.css("color",this.value)
 	});
 
-	mycolor=$("#TextColorPicker").cxColor();
+	textColor=$("#TextColorPicker").cxColor();
 })();
 
 (function(){
 	var color=$("#ConnectColorPicker");
-	var mycolor;
 
-	mycolor=$("#ConnectColorPicker").cxColor();
-	mycolor.color("#AAA");
+	connectColor=$("#ConnectColorPicker").cxColor();
+	connectColor.color("#AAA");
 })();
 
 $(".objectSel").on("click",function(e){
@@ -841,6 +839,11 @@ function textEdit(){
 }
 
 function connectEdit(){
+	var id=this.id? this.id:Mouse.rightID;
+	if(this.id && objects.type(this.id)=="connection"){
+		var o=objects.find(this.id);
+		connectColor.color(o.color);
+	}
 	$("#inputConnect").modal({
 		show: true,
 		keyboard: false
@@ -979,3 +982,25 @@ function getPortion(){
 	}
 	return t;
 }
+
+$(".legend").on("click", function(e){
+	d3.selectAll(".legendUnit")
+	.classed("active",false);
+	d3.select(this)
+	.classed("active",true);
+	switch(d3.select(this).attr("id")){
+		case "1":
+			$(".legendUnit").css("display","none");
+			$("#containersLegend").css("display","inline");
+		break;
+		case "2":
+			$(".legendUnit").css("display","none");
+			$("#valvesLegend").css("display","inline");
+		break;
+		case "3":
+			$(".legendUnit").css("display","none");
+			$("#othersLegend").css("display","inline");
+		break;
+		default:
+	}
+})
