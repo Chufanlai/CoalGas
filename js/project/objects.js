@@ -99,7 +99,7 @@ function createTank2(pos, width, rotate, name){
 function createTank3(pos, width, rotate, name){
 	var o={};
 
-	o.origin=[335.629,949.853];
+	o.origin=[335.629,1148.872];
 	o.scales=[
 	d3.scale.linear().domain([0,o.origin[0]]).range([0,1]),
 	d3.scale.linear().domain([0,o.origin[1]]).range([0,1])];
@@ -627,7 +627,7 @@ function createText(pos, width, rotate, value, name) {
 	o.origin=[];
 	o.asp;
 	o.scales=[];
-	o.originTextSize=32;
+	o.originTextSize=16;
 	o.string=value[0];
 	o.vertical=value[1];
 	o.getOriginalText=getOriginalText;
@@ -707,9 +707,14 @@ function createMouse(){
 	o.multiple=false;//multiple operation or not
 	o.resizeOrd=-1;
 	o.brush=false;//brush selection
+	o.dblClock=0;
+	o.dblCount=0;
 	o.rightID="";//rightclick object
 	o.rightPos;//mouse rightclick position
 	o.connect=false;//connect mode
+	o.zooming=false;
+	o.zoomed=false;
+	o.zoomSize=[];
 	o.connectStart=[];
 	o.connectPath=[];
 	o.connectSize=[];

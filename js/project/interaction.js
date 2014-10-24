@@ -55,7 +55,7 @@ $("#canvas").contextMenu('myMenu1', {
 				.append("path")
 				.attr("d","M"+pos[0]+","+pos[1]+" L"+pos[0]+","+pos[1])
 				.attr("stroke","#AAA")
-				.attr("stroke-width",10)
+				.attr("stroke-width",6)
 				.attr("class","pipe");
 				Mouse.connectSize=[pos,pos];
 				Mouse.connectStart=pos;
@@ -72,7 +72,8 @@ $("#canvas").contextMenu('myMenu1', {
 				Mouse.rightID=undefined;
 		}
         if (!Mouse.rightID) {
-          	$('#addConnection', menu).remove();
+        	Mouse.rightID="root";
+          	//$('#addConnection', menu).remove();
           	$('#edit', menu).remove();        		
         }
         else{
@@ -124,7 +125,8 @@ $("#plus").on("click",function(e){
 			break;
 		}
 		var tang=Math.random()*Math.PI/2;
-		var o=objects.create([Math.cos(tang)*rand_r,Math.cos(tang)*rand_r],tsize,0,selObj+"_"+objects.ID[selObj],selObj,0); //AJI changed here
+		var t=getStartPoint();
+		var o=objects.create([t[0]+Math.cos(tang)*rand_r,t[1]+Math.cos(tang)*rand_r],tsize,0,selObj+"_"+objects.ID[selObj],selObj,0); //AJI changed here
 		o.init();
 		objects.array[selObj].push(o);
 		objects.ID[selObj]++;
@@ -132,6 +134,18 @@ $("#plus").on("click",function(e){
 });
 
 $("#plus").tooltip();
+
+$("#zoom").on("click",function (e){
+	if(!Mouse.zoomed)
+		Mouse.zooming=true;
+	else{
+		Mouse.zoomed=false;
+		zoom(Mouse.zoomed);
+		d3.select("#zoom span")
+		.classed("glyphicon-zoom-in",true)
+		.classed("glyphicon-zoom-out",false);
+	}
+});
 
 $("#slider").slider({
     animate: true,
@@ -177,21 +191,19 @@ $("#setConnect").on("click", function (e) {
 (function(){
 	var color=$("#TextColorPicker");
 	var title=$("#inputContent");
-	var mycolor;
 
 	color.bind("change",function(){
 		title.css("color",this.value)
 	});
 
-	mycolor=$("#TextColorPicker").cxColor();
+	textColor=$("#TextColorPicker").cxColor();
 })();
 
 (function(){
 	var color=$("#ConnectColorPicker");
-	var mycolor;
 
-	mycolor=$("#ConnectColorPicker").cxColor();
-	mycolor.color("#AAA");
+	connectColor=$("#ConnectColorPicker").cxColor();
+	connectColor.color("#AAA");
 })();
 
 $(".objectSel").on("click",function(e){
@@ -235,6 +247,13 @@ $("#loadData").on("click", function (e) {
 			clearFile();
 			Load.readAll=false;
 			objects.clear();
+			svg.attr("transform","scale(1,1)translate(0,0)");
+			if(Mouse.zoomed){
+				Mouse.zoomed=false;
+				d3.select("#zoom span")
+				.classed("glyphicon-zoom-in",true)
+				.classed("glyphicon-zoom-out",false);
+			}
 			Load.load(Load.contents);
 		}
 	},100);
@@ -262,7 +281,8 @@ d3.select("#canvas")
 //AJI changed here
 function addMyText(string, vertical, color) {
 	var tang=Math.random()*Math.PI/2;
-	var o=objects.create([Math.cos(tang)*rand_r,Math.cos(tang)*rand_r],init_size*3,0,"text"+"_"+objects.ID["text"],"text",[string, vertical, color]);
+	var t=getStartPoint();
+	var o=objects.create([t[0]+Math.cos(tang)*rand_r,t[1]+Math.cos(tang)*rand_r],init_size*3,0,"text"+"_"+objects.ID["text"],"text",[string, vertical, color]);
 	o.init();
 	objects.array["text"].push(o);
 	objects.ID["text"]++;
@@ -281,7 +301,7 @@ function disappear(){
 function mousedown(){
 	if(d3.event.which!=1){
 		if(d3.event.which==3){
-			Mouse.rightPos=d3.mouse(this);
+			Mouse.rightPos=d3.mouse(svg.node());
 		}
 		return;
 	}
@@ -289,7 +309,7 @@ function mousedown(){
 		$("#jqContextMenu").hide();
 		$("#jqContextShadow").hide()
 		Mouse.brush=true;
-		var pos=d3.mouse(this);
+		var pos=d3.mouse(svg.node());
 		Mouse.mousePos=pos;
 		svg.append("rect")
 		.attr("x",pos[0])
@@ -303,12 +323,12 @@ function mousedown(){
 
 function press(){
 	if(d3.event.which!=1){
-		Mouse.rightPos=d3.mouse($("#canvas")[0]);
+		Mouse.rightPos=d3.mouse(svg.node());
 		return;
 	}
 	if(!Mouse.mouseOn){
 		Mouse.mouseOn=true;
-		var pos=d3.mouse($("#canvas")[0]);
+		var pos=d3.mouse(svg.node());
 		var t=$(this).attr("id");
 		var tcenter=[];
 		Mouse.resize=(t.indexOf("resize")>=0);	
@@ -380,8 +400,39 @@ function press(){
 function move(){
 	if(Mouse.mouseOut)
 		Mouse.mouseOut=false;
+	var pos=d3.mouse(svg.node());
+	if(Mouse.zooming){
+		if(!Mouse.zoomed){
+			if(!$("#zoomFrame")[0]){
+				var s=$("#canvas");
+				Mouse.zoomSize=[svg_size[0]/2,svg_size[1]/2];
+				var tsize=Mouse.zoomSize;
+				var tx=Math.max(pos[0]-tsize[0]/2,0);
+				tx=Math.min(svg_size[0],tx+tsize[0])-tsize[0];
+				var ty=Math.max(pos[1]-tsize[1]/2,0);
+				ty=Math.min(svg_size[1],ty+tsize[1])-tsize[1];
+				svg.append("rect")
+				.attr("x",tx)
+				.attr("y",ty)
+				.attr("width",tsize[0])
+				.attr("height",tsize[1])
+				.attr("class","zoomFrame")
+				.attr("id","zoomFrame");
+			}
+			else{
+				var tsize=Mouse.zoomSize;
+				var tx=Math.max(pos[0]-tsize[0]/2,0);
+				tx=Math.min(svg_size[0],tx+tsize[0])-tsize[0];
+				var ty=Math.max(pos[1]-tsize[1]/2,0);
+				ty=Math.min(svg_size[1],ty+tsize[1])-tsize[1];
+				$("#zoomFrame")
+				.attr("x",tx)
+				.attr("y",ty);
+				return;
+			}
+		}
+	}
 	if(Mouse.connect){
-		var pos=d3.mouse($("#canvas")[0]);
 		var t="";
 		for(var i=0;i<Mouse.connectPath.length-1;i++)
 			t=t+Mouse.connectPath[i];
@@ -392,7 +443,6 @@ function move(){
 	if(Mouse.mouseOn){
 		if(!Mouse.dragging)
 			Mouse.dragging=true;
-		var pos=d3.mouse($("#canvas")[0]);
 		var o=$("g#"+Mouse.mouseID);
 		var t;
 		if(Mouse.resize){
@@ -507,7 +557,7 @@ function move(){
 		}
 	}
 	else{
-		var pos=d3.mouse(this);
+		var pos=d3.mouse(svg.node());
 		if(Mouse.brush){
 			var wid=pos[0]-Mouse.mousePos[0],
 			hei=pos[1]-Mouse.mousePos[1];
@@ -531,8 +581,34 @@ function out(){
 function release(){
 	if(d3.event.which!=1)
 		return;
+	if(Mouse.zooming){
+			if(!Mouse.zoomed){
+				Mouse.zoomed=true;
+				d3.select("#zoom span")
+				.classed("glyphicon-zoom-in",false)
+				.classed("glyphicon-zoom-out",true);
+			}
+			zoom(Mouse.zoomed);
+		$("#zoomFrame").remove();
+	}
+	if(Mouse.connect && Mouse.mouseID==""){
+		var stop=false;
+		if(Mouse.dblClock>0){
+			clearInterval(Mouse.dblClock);
+			if(Mouse.dblCount<=3){
+				Mouse.mouseObj={name:"root"};
+				Mouse.dblClock=0;
+				stop=true;
+			}
+			Mouse.dblCount=0;
+		}
+		if(!stop)
+			Mouse.dblClock=setInterval(function(){
+				Mouse.dblCount++;
+			},50);
+	}
 	if(Mouse.connect){
-		var pos=d3.mouse($("#canvas")[0]);
+		var pos=d3.mouse(svg.node());
 		var tpos=getPath(Mouse.connectStart, pos);
 		Mouse.connectPath[Mouse.connectPath.length-1]="L"+(tpos[0])+","+(tpos[1])+" ";
 		Mouse.connectSize[0]=[Math.min(Mouse.connectSize[0][0],tpos[0]),Math.min(Mouse.connectSize[0][1],tpos[1])];
@@ -720,19 +796,20 @@ function changeObject(sobj){
 }
 
 function resetKey(){
-	Key.ctrl=false;
+	this.ctrl=false;
 }
 
 function resetMouse(){
-	Mouse.mouseOn=false;
-	Mouse.dragging=false;
-	Mouse.resize=false;
-	Mouse.multiple=false;
-	Mouse.brush=false;
-	Mouse.dragID="";
-	Mouse.mouseID="";
-	Mouse.mouseObj=undefined;
-	Mouse.resizeOrd=-1;
+	this.mouseOn=false;
+	this.dragging=false;
+	this.resize=false;
+	this.multiple=false;
+	this.brush=false;
+	this.dragID="";
+	this.mouseID="";
+	this.mouseObj=undefined;
+	this.resizeOrd=-1;
+	this.zooming=false;
 }
 
 function deleteSel(){
@@ -762,6 +839,11 @@ function textEdit(){
 }
 
 function connectEdit(){
+	var id=this.id? this.id:Mouse.rightID;
+	if(this.id && objects.type(this.id)=="connection"){
+		var o=objects.find(this.id);
+		connectColor.color(o.color);
+	}
 	$("#inputConnect").modal({
 		show: true,
 		keyboard: false
@@ -811,6 +893,11 @@ function changeText(string){
 	this.getOriginalText();
 	this.size[0]=d3.select("#"+this.name + " text").node().getBoundingClientRect().width;
 	this.size[1]=d3.select("#"+this.name + " text").node().getBoundingClientRect().height;
+	if(Mouse.zoomed){
+		var tpor=getPortion();
+		this.size[0]=this.size[0]/tpor[0];
+		this.size[1]=this.size[1]/tpor[1];
+	}
 	if(this.rotate%180!=0){
 		var ts=this.size[0];
 		this.size[0]=this.size[1];
@@ -828,7 +915,7 @@ function changeText(string){
 }
 
 function connect(startID, endID, pos, size, path){
-	var o=objects.create(pos, size, 0, "connection_"+objects.ID["connection"], "connection", [startID, endID, path, "#AAA", 10, size]);
+	var o=objects.create(pos, size, 0, "connection_"+objects.ID["connection"], "connection", [startID, endID, path, "#AAA", 6, size]);
 	o.init();
 	objects.array["connection"].push(o);
 	objects.ID["connection"]++;
@@ -852,3 +939,68 @@ function getPath(start, end){
 		else
 			return [start[0], end[1]];
 }
+
+function zoom(sign) {
+	if(sign){
+		var o=$("#zoomFrame");
+		var tr=[-parseFloat(o.attr("x")),-parseFloat(o.attr("y"))];
+		var tsize=[parseFloat(o.attr("width")),parseFloat(o.attr("height"))];
+		var por=[svg_size[0]/tsize[0],svg_size[1]/tsize[1]];
+		var t="scale("+por[0]+","+por[1]+")translate("+tr+")";
+		svg.attr("transform",t);
+	}
+	else{
+		var t="scale(1,1)translate(0,0)";
+		svg.attr("transform",t);			
+	}
+}
+
+function getStartPoint(){
+	var t=svg.attr("transform");
+	if(t){
+		t=t.substring(t.indexOf("translate"));
+		t=t.substring(t.indexOf("(")+1,t.indexOf(")"));
+		t=t.split(",");
+		t=[-parseFloat(t[0]),-parseFloat(t[1])];
+	}
+	else{
+		t=[0,0];
+	}
+	return t;
+}
+
+function getPortion(){
+	var t=svg.attr("transform");
+	if(t){
+		t=t.substring(t.indexOf("scale"));
+		t=t.substring(t.indexOf("(")+1,t.indexOf(")"));
+		t=t.split(",");
+		t=[parseFloat(t[0]),parseFloat(t[1])];
+	}
+	else{
+		t=[1,1];
+	}
+	return t;
+}
+
+$(".legend").on("click", function(e){
+	d3.selectAll(".legendUnit")
+	.classed("active",false);
+	d3.select(this)
+	.classed("active",true);
+	switch(d3.select(this).attr("id")){
+		case "1":
+			$(".legendUnit").css("display","none");
+			$("#containersLegend").css("display","inline");
+		break;
+		case "2":
+			$(".legendUnit").css("display","none");
+			$("#valvesLegend").css("display","inline");
+		break;
+		case "3":
+			$(".legendUnit").css("display","none");
+			$("#othersLegend").css("display","inline");
+		break;
+		default:
+	}
+})

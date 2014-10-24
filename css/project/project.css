@@ -50,8 +50,19 @@ circle{
 }
 
 text{
+	stroke: none;
 	font-family: sans-serif;
 	text-align: center;
+}
+
+a{
+	color: #000;
+	text-decoration:none;
+}
+
+a:hover{
+	color: #000;
+	text-decoration:none;
 }
 
 .thick_border{
@@ -78,6 +89,13 @@ text{
 	stroke-width: 2;
 	stroke: red;
 	opacity: 1;
+}
+
+.zoomFrame{
+	fill: none;
+	stroke: #F00;
+	stroke-width: 2;
+	stroke-dasharray: 10,10;
 }
 
 .brushing{

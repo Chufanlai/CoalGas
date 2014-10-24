@@ -818,7 +818,7 @@ function showConnection() {
 		.on("mouseover", appear)
 		.on("mouseout", disappear)
 		.on("mousedown", press)
-		.on("dblclick", connectEdit);;		
+		.on("dblclick", connectEdit); 		
 	}
 	else{
 		var g=svg.append("g")
@@ -834,6 +834,7 @@ function showConnection() {
 		d3.selectAll($(g[0][0]).find("*"))
 		.attr("stroke",this.color)
 		.attr("stroke-width",this.band)
+		.attr("fill","none")
 		.classed("normal",false)
 		.classed("pipe",true);
 	}
