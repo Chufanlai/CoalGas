@@ -50,8 +50,19 @@ circle{
 }
 
 text{
+	stroke: none;
 	font-family: sans-serif;
 	text-align: center;
+}
+
+a{
+	color: #000;
+	text-decoration:none;
+}
+
+a:hover{
+	color: #000;
+	text-decoration:none;
 }
 
 .thick_border{

@@ -627,7 +627,7 @@ function createText(pos, width, rotate, value, name) {
 	o.origin=[];
 	o.asp;
 	o.scales=[];
-	o.originTextSize=32;
+	o.originTextSize=16;
 	o.string=value[0];
 	o.vertical=value[1];
 	o.getOriginalText=getOriginalText;

@@ -55,7 +55,7 @@ $("#canvas").contextMenu('myMenu1', {
 				.append("path")
 				.attr("d","M"+pos[0]+","+pos[1]+" L"+pos[0]+","+pos[1])
 				.attr("stroke","#AAA")
-				.attr("stroke-width",10)
+				.attr("stroke-width",6)
 				.attr("class","pipe");
 				Mouse.connectSize=[pos,pos];
 				Mouse.connectStart=pos;
@@ -915,7 +915,7 @@ function changeText(string){
 }
 
 function connect(startID, endID, pos, size, path){
-	var o=objects.create(pos, size, 0, "connection_"+objects.ID["connection"], "connection", [startID, endID, path, "#AAA", 10, size]);
+	var o=objects.create(pos, size, 0, "connection_"+objects.ID["connection"], "connection", [startID, endID, path, "#AAA", 6, size]);
 	o.init();
 	objects.array["connection"].push(o);
 	objects.ID["connection"]++;
