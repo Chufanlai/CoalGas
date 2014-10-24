@@ -277,7 +277,7 @@ function showConveyer(){
 	}
 }
 
-function initGauge(){
+function initGauge1(){
 	this.maxHeight=360.816;
 	this.rects=[
 	[0,373-this.maxHeight*this.attr,22,this.maxHeight*this.attr]
@@ -295,6 +295,24 @@ function initGauge(){
 	this.show();
 }
 
+function initGauge2(){
+	this.maxHeight=541.95;
+	this.rects=[
+	[0,562.47-this.maxHeight*this.attr,128.161,this.maxHeight*this.attr]
+	];
+	this.rect_fills=[
+	"#BDBD3F"
+	];
+	this.paths=["M127.661,563.367c0,11.517-28.572,20.849-63.83,20.849l0,0C28.578,584.215,0,574.883,0,563.367V21.347C0,9.833,28.578,0.5,63.831,0.5l0,0c35.255,0,63.83,9.333,63.83,20.847V563.367z",
+	"M128.165,561.649c0,11.991-28.69,21.711-64.084,21.711l0,0C28.688,583.36,0,573.64,0,561.649H128.165z"
+	];
+	this.path_fills=[
+	"#FFFFFF",
+	"#BDBD3F"
+	];
+	this.show();
+}
+
 function showGauge(){
 	drawFrame(this.pos, this.size, this.rotate%180!=0, this.name);
 	var g=svg.append("g")
@@ -306,6 +324,9 @@ function showGauge(){
 	.on("mousedown",press);
 	this.draw(g,"path");
 	this.draw(g,"rect");
+	d3.select($(g[0][0]).find("path:first")[0])
+	.classed("normal",false)
+	.classed("thick_border",true);
 }
 
 function initVibFeeder(){
@@ -755,6 +776,8 @@ function showArrow(){
 	.on("mouseout",disappear)
 	.on("mousedown",press);
 	this.draw(g,"polygon");
+	d3.selectAll($(g[0][0]).find("*"))
+	.classed("thick_border",true);
 }
 
 function initCapacitor(){
@@ -777,6 +800,33 @@ function showCapacitor(){
 	this.draw(g,"line");
 	d3.selectAll($(g[0][0]).find("*"))
 	.classed("thick_border",true);
+}
+
+function initNozzle(){
+	this.rects=[
+	[22.475,156.094,73.371,199.235],
+	[0,0,118.321,109.332]
+	];
+	this.rect_fills=[
+	"url(#nozzle1)",
+	"url(#nozzle3)"
+	];
+	this.polygons=["0,109.105 22.17,155.862 59.02,155.862 95.87,155.862 118.321,109.101 "];
+	this.poly_fills=["url(#nozzle2)"];
+	this.show();
+}
+
+function showNozzle(){
+	drawFrame(this.pos, this.size, this.rotate%180!=0, this.name);
+	var g=svg.append("g")
+	.attr("id",this.name)
+	.attr("class","movable object")
+	.attr("transform","translate("+this.pos[0]+","+this.pos[1]+")scale("+this.scales[0](this.size[0])+","+this.scales[1](this.size[1])+")"+"rotate("+this.rotate+","+this.origin[0]/2+","+this.origin[1]/2+")")
+	.on("mouseover",appear)
+	.on("mouseout",disappear)
+	.on("mousedown",press);
+	this.draw(g,"rect");
+	this.draw(g,"polygon");
 }
 
 //AJI changed here

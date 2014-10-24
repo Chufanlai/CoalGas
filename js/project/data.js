@@ -163,7 +163,10 @@ function createObject(pos, width, rotate, name, type, value){//Change here
 			return createConveyer(pos, width, rotate, name);
 		break;
 		case "gauge":
-			return createGauge(pos, width, rotate, name, value);
+			return createGauge1(pos, width, rotate, name, value);
+		break;
+		case "gauge2":
+			return createGauge2(pos, width, rotate, name, value);
 		break;
 		case "vibrating":
 			return createVibFeeder(pos, width, rotate, name);
@@ -212,6 +215,9 @@ function createObject(pos, width, rotate, name, type, value){//Change here
 		break;
 		case "monitoring":
 			return createMonitoring(pos, width, rotate, name);
+		break;
+		case "nozzle":
+			return createNozzle(pos, width, rotate, name);
 		break;
 		case "text":
 			return createText(pos, width, rotate, value, name);//AJI changed here
