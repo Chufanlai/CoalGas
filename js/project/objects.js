@@ -803,7 +803,7 @@ function getOriginalText(){
  				    .data(this.string.split(""))
  				.enter().append("tspan")
  					.attr("x", 0)
- 				    .attr("dy", "0.95em")
+ 				    .attr("dy", "0.9em")
  					.text(function(d){return d;});
 	} else {
 		tempText = 	d3.select("#canvas")
