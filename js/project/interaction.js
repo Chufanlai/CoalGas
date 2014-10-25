@@ -86,10 +86,7 @@ $("#canvas").contextMenu('myMenu1', {
 	          		$('#addConnection', menu).remove();
 	        	}
 	        	else{
-	        		if(objects.type(Mouse.rightID)=='connection'){
-	          			$('#addConnection', menu).remove();
-	        		}
-	        		else
+	        		if(objects.type(Mouse.rightID)!='connection')
 	          			$('#edit', menu).remove();
 	        	}        		
         	}

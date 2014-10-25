@@ -105,11 +105,13 @@
 								<ul id="menu3" class="dropdown-menu" role="menu" aria-labelledby="others">
 									<li class="objectSel" id="monitoring" srcsize="ssm"><a>monitoring point <span class="glyphicon"></span></a></li>
 									<li class="objectSel" id="diode" srcsize="sm"><a>diode <span class="glyphicon"></span></a></li>
-									<li class="objectSel" id="arrow" srcsize="sm"><a>arrow <span class="glyphicon"></span></a></li>
+									<li class="objectSel" id="arrow" srcsize="sssm"><a>arrow <span class="glyphicon"></span></a></li>
 									<li class="objectSel" id="capacitor" srcsize="sssm"><a>capacitor <span class="glyphicon"></span></a></li>
 									<li class="objectSel" id="conveyer" srcsize="lg"><a>conveyer <span class="glyphicon"></span></a></li>
-									<li class="objectSel" id="gauge" srcsize="xs"><a>gauge <span class="glyphicon"></span></a></li>
+									<li class="objectSel" id="gauge" srcsize="xs"><a>gauge1 <span class="glyphicon"></span></a></li>
+									<li class="objectSel" id="gauge2" srcsize="ssm"><a>gauge2 <span class="glyphicon"></span></a></li>
 									<li class="objectSel" id="vibrating" srcsize="lg"><a>vibrating feeder <span class="glyphicon"></span></a></li>
+									<li class="objectSel" id="nozzle" srcsize="sm"><a>nozzle <span class="glyphicon"></span></a></li>
 								</ul>
 							</div>
 						</div>
@@ -823,6 +825,45 @@
 							<stop  offset="0.8795" style="stop-color:#FDFDFD;stop-opacity:0.1205"/>
 							<stop  offset="1" style="stop-color:#FFFFFF;stop-opacity:0"/>
 						</linearGradient>
+						<linearGradient id="nozzle1" gradientUnits="userSpaceOnUse" x1="267.7979" y1="-252.7705" x2="324.2842" y2="-252.7705" gradientTransform="matrix(1 0 0 -1 -236.8804 -42.4736)">
+							<stop  offset="0" style="stop-color:#3E3A39"/>
+							<stop  offset="0.08" style="stop-color:#595757"/>
+							<stop  offset="0.2044" style="stop-color:#898989"/>
+							<stop  offset="0.3199" style="stop-color:#B5B5B6"/>
+							<stop  offset="0.422" style="stop-color:#D3D3D4"/>
+							<stop  offset="0.5" style="stop-color:#DCDDDD"/>
+							<stop  offset="0.578" style="stop-color:#D3D3D4"/>
+							<stop  offset="0.6801" style="stop-color:#B5B5B6"/>
+							<stop  offset="0.7956" style="stop-color:#898989"/>
+							<stop  offset="0.92" style="stop-color:#595757"/>
+							<stop  offset="1" style="stop-color:#3E3A39"/>
+						</linearGradient>
+						<linearGradient id="nozzle2" gradientUnits="userSpaceOnUse" x1="-54.7349" y1="-31.3184" x2="63.5864" y2="-31.3184" gradientTransform="matrix(1 0 0 -1 54.7349 101.3945)">
+							<stop  offset="0" style="stop-color:#3E3A39"/>
+							<stop  offset="0.08" style="stop-color:#595757"/>
+							<stop  offset="0.2044" style="stop-color:#898989"/>
+							<stop  offset="0.3199" style="stop-color:#B5B5B6"/>
+							<stop  offset="0.422" style="stop-color:#D3D3D4"/>
+							<stop  offset="0.5" style="stop-color:#DCDDDD"/>
+							<stop  offset="0.578" style="stop-color:#D3D3D4"/>
+							<stop  offset="0.6801" style="stop-color:#B5B5B6"/>
+							<stop  offset="0.7956" style="stop-color:#898989"/>
+							<stop  offset="0.92" style="stop-color:#595757"/>
+							<stop  offset="1" style="stop-color:#3E3A39"/>
+						</linearGradient>
+						<linearGradient id="nozzle3" gradientUnits="userSpaceOnUse" x1="4.882813e-004" y1="54.666" x2="118.3213" y2="54.666">
+							<stop  offset="0" style="stop-color:#3E3A39"/>
+							<stop  offset="0.08" style="stop-color:#595757"/>
+							<stop  offset="0.2044" style="stop-color:#898989"/>
+							<stop  offset="0.3199" style="stop-color:#B5B5B6"/>
+							<stop  offset="0.422" style="stop-color:#D3D3D4"/>
+							<stop  offset="0.5" style="stop-color:#DCDDDD"/>
+							<stop  offset="0.578" style="stop-color:#D3D3D4"/>
+							<stop  offset="0.6801" style="stop-color:#B5B5B6"/>
+							<stop  offset="0.7956" style="stop-color:#898989"/>
+							<stop  offset="0.92" style="stop-color:#595757"/>
+							<stop  offset="1" style="stop-color:#3E3A39"/>
+						</linearGradient>
 					</g>
 				</svg>
 			</div>
@@ -848,10 +889,10 @@
 			var selObj="", selSize="", textTarget="", connectTarget="";
 			var objTypes=["bucket","tank1","tank2","tank3","separator","feeder",
 			"valve1","valve2","valve3","valve4","valve5","valve6","valve7","valve8","valve9","valve10","valve11",
-			"conveyer","gauge","vibrating","capacitor","arrow","diode","monitoring","text","connection"];//Change here
+			"conveyer","gauge","gauge2","vibrating","capacitor","nozzle","arrow","diode","monitoring","text","connection"];//Change here
 			var objects=createObjects(objTypes);
 			var Mouse=createMouse(), Key=createKey(), Load=createLoad(), clipbord=[], init_text="Double click to edit";
-			var pt_r=4, init_size=80, min_wid=3, rand_r=20, svg_size=[parseFloat($("#canvas").css("width")),parseFloat($("#canvas").css("height"))];
+			var pt_r=3, init_size=80, min_wid=3, rand_r=20, svg_size=[parseFloat($("#canvas").css("width")),parseFloat($("#canvas").css("height"))];
 			var textCol, connectCol;
 			var test, testzoom=true;
 		</script>

@@ -200,7 +200,7 @@ function createConveyer(pos, width, rotate, name){
 	return o;	
 }
 
-function createGauge(pos, width, rotate, name, value){
+function createGauge1(pos, width, rotate, name, value){
 	var o={};
 
 	o.origin=[22,388];
@@ -220,13 +220,42 @@ function createGauge(pos, width, rotate, name, value){
 	o.path;
 	o.path_fills;
 
-	o.init=initGauge;
+	o.init=initGauge1;
 	o.show=showGauge;
 	o.change=changeGauge;
 	o.draw=draw;
 
 	return o;	
 }
+
+function createGauge2(pos, width, rotate, name, value){
+	var o={};
+
+	o.origin=[128.161,583.288];
+	o.scales=[
+	d3.scale.linear().domain([0,o.origin[0]]).range([0,1]),
+	d3.scale.linear().domain([0,o.origin[1]]).range([0,1])];
+	o.asp=o.origin[1]/o.origin[0];
+	o.pos=pos;
+	o.size=[width,width*o.asp];
+	o.rotate=rotate;
+	o.name=name;
+	o.attr=value;
+	o.maxHeight;
+	
+	o.rects;
+	o.rect_fills;
+	o.path;
+	o.path_fills;
+
+	o.init=initGauge2;
+	o.show=showGauge;
+	o.change=changeGauge;
+	o.draw=draw;
+
+	return o;	
+}
+
 
 function createVibFeeder(pos, width, rotate, name){
 	var o={};
@@ -615,6 +644,31 @@ function createCapacitor(pos, width, rotate, name){
 
 	o.init=initCapacitor;
 	o.show=showCapacitor;
+	o.draw=draw;
+
+	return o;	
+}
+
+function createNozzle(pos, width, rotate, name){
+	var o={};
+
+	o.origin=[118.321,355.329];
+	o.scales=[
+	d3.scale.linear().domain([0,o.origin[0]]).range([0,1]),
+	d3.scale.linear().domain([0,o.origin[1]]).range([0,1])];
+	o.asp=o.origin[1]/o.origin[0];
+	o.pos=pos;
+	o.size=[width,width*o.asp];
+	o.rotate=rotate;
+	o.name=name;
+
+	o.rects;
+	o.rect_fills;
+	o.polygons;
+	o.poly_fills;
+
+	o.init=initNozzle;
+	o.show=showNozzle;
 	o.draw=draw;
 
 	return o;	
