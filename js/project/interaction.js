@@ -877,7 +877,7 @@ function changeText(string){
  			    .data(string.split(""))
  			.enter().append("tspan")
  				.attr("x", 0)
- 			    .attr("dy", "0.95em")
+ 			    .attr("dy", "0.9em")
  			    .text(function(d){return d;});
 	} else {
 		$("#"+this.name+" text")
