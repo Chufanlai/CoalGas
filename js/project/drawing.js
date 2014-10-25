@@ -1023,7 +1023,7 @@ function draw(g, type){
  							       .data(this.string.split(""))
  							   .enter().append("tspan")
  							   	   .attr("x", 0)
- 							       .attr("dy", "0.9em")
+ 							       .attr("dy", "0.95em")
  							       .text(function(d){return d;});
 			} else {
 				text = g.append("text")
