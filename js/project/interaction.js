@@ -214,7 +214,9 @@ $(".objectSel").on("click",function(e){
 });
 
 $("#saveSvg").on("click", function(e) {
+	fixCSS(false);
 	crowbar("#canvas");
+	fixCSS(true);
 	$("a.svg-crowbar").remove();
 });
 

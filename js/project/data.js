@@ -310,3 +310,21 @@ function getConnectionPath(){
 	this.path_fills=["none"];
 }
 */
+
+function fixCSS(restore){
+	if(!restore){
+		$(".normal")
+		.css("stroke-width",0.5);
+		$(".thick_border")
+		.css("stroke-width",1);
+		$("#background")
+		.attr("width",svg_size[0])
+		.attr("height",svg_size[1]);
+	}
+	else{
+		$(".normal")
+		.css("stroke-width",1);
+		$(".thick_border")
+		.css("stroke-width",10);		
+	}
+}

@@ -72,6 +72,10 @@ a:hover{
 	text-decoration:none;
 }
 
+.normal{
+	stroke-width: 1;
+}
+
 .thick_border{
 	stroke-width: 10;
 }

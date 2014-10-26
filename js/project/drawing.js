@@ -976,7 +976,8 @@ function draw(g, type){
 				.attr("cx",d[0])
 				.attr("cy",d[1])
 				.attr("r",d[2])
-				.attr("fill",this.circle_fills[i]);
+				.attr("fill",this.circle_fills[i])
+				.classed("normal",true);
 			}
 		break;
 		case "rect":
@@ -987,7 +988,8 @@ function draw(g, type){
 				.attr("y",d[1])
 				.attr("width",d[2])
 				.attr("height",d[3])
-				.attr("fill",this.rect_fills[i]);
+				.attr("fill",this.rect_fills[i])
+				.classed("normal",true);
 			}
 		break;
 		case "polygon":
@@ -995,7 +997,8 @@ function draw(g, type){
 				var d=this.polygons[i];
 				g.append("polygon")
 				.attr("points",d)
-				.attr("fill",this.poly_fills[i]);
+				.attr("fill",this.poly_fills[i])
+				.classed("normal",true);
 			}
 		break;
 		case "line":
@@ -1006,7 +1009,8 @@ function draw(g, type){
 				.attr("x1",d[0])
 				.attr("y1",d[1])
 				.attr("x2",d[2])
-				.attr("y2",d[3]);
+				.attr("y2",d[3])
+				.classed("normal",true);
 			}
 		break;
 		//AJI changed here
