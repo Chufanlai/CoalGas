@@ -35,7 +35,19 @@
 			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 				<div class="btn-toolbar" role="toolbar">
 					<div class="btn-group">
-						<button type="button" class="btn btn-default" data-toggle="modal" data-target="#loadModal"><span class="glyphicon glyphicon-folder-open"></span> Load </button>
+						<div class="btn-group">
+							<div class="dropdown">
+								<button type="button" class="btn btn-default dropdown dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="load_menu">
+									<span class="glyphicon glyphicon-folder-open"></span> Load 
+									<span class="caret"></span>
+									<span class="sr-only">Toggle Dropdown</span>
+								</button>
+								<ul id="menu1" class="dropdown-menu" role="menu" aria-labelledby="load_menu">
+									<li id="sampleData"><a>Sample Layout</a></li>
+									<li data-toggle="modal" data-target="#loadModal"><a>Layout File</a></li>
+								</ul>
+							</div>
+						</div>
 						<div class="btn-group">
 							<div class="dropdown">
 								<button type="button" class="btn btn-default dropdown dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="save_menu">
@@ -44,8 +56,8 @@
 									<span class="sr-only">Toggle Dropdown</span>
 								</button>
 								<ul id="menu1" class="dropdown-menu" role="menu" aria-labelledby="save_menu">
-									<li class="objectSel" id="saveSvg"><a>Svg File</a></li>
-									<li class="objectSel" id="saveData"><a>Layout File</a></li>
+									<li id="saveSvg"><a>Svg File</a></li>
+									<li id="saveData"><a>Layout File</a></li>
 								</ul>
 							</div>
 						</div>

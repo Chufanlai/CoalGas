@@ -229,18 +229,29 @@ function createObject(pos, width, rotate, name, type, value){//Change here
 }
 
 //loading files
-function getData(){
-    var file = document.getElementById("File").files[0];  
-    var reader = new FileReader();
-    //Read data as text 
-    reader.readAsText(file);  
-    reader.onload=function(f){
-    	Load.contents=this.result;
-    	Load.readAll=true;
-    	if(Load.illegal){
-    		Load.ready=true;
-    	}
-    }
+function getData(sample){
+	if(sample){
+		d3.text("http://vis.pku.edu.cn/CoalGas/sources/layout.csv")
+		.get(function(e,d){
+			Load.contents=d;
+			Load.illegal=false;
+			Load.readAll=true;
+			Load.ready=true;
+		});
+	}
+	else{
+	    var file = document.getElementById("File").files[0];  
+	    var reader = new FileReader();
+	    //Read data as text 
+	    reader.readAsText(file);  
+	    reader.onload=function(f){
+	    	Load.contents=this.result;
+	    	Load.readAll=true;
+	    	if(Load.illegal){
+	    		Load.ready=true;
+	    	}
+	    }
+	}
 } 
 
 function getLength(text){

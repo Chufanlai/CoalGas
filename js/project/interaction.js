@@ -239,7 +239,28 @@ $("#saveData").on("click", function(e) {
 });
 
 $("#loadData").on("click", function (e) {
-		Load.get();
+		Load.get(false);
+	var k=setInterval(function(){
+		if(Load.readAll){
+			clearInterval(k);
+			clearFile();
+			Load.readAll=false;
+			objects.clear();
+			svg.attr("transform","scale(1,1)translate(0,0)");
+			if(Mouse.zoomed){
+				Mouse.zoomed=false;
+				d3.select("#zoom span")
+				.classed("glyphicon-zoom-in",true)
+				.classed("glyphicon-zoom-out",false);
+			}
+			Load.load(Load.contents);
+		}
+	},100);
+	clearFile();
+});
+
+$("#sampleData").on("click", function (e) {
+		Load.get(true);
 	var k=setInterval(function(){
 		if(Load.readAll){
 			clearInterval(k);
