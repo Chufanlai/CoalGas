@@ -239,7 +239,7 @@ function createObject(pos, width, rotate, name, type, value){//Change here
 //loading files
 function getData(sample){
 	if(sample){
-		d3.text("http://vis.pku.edu.cn/CoalGas/sources/layout.csv")
+		d3.text("sources/layout.csv")
 		.get(function(e,d){
 			Load.contents=d;
 			Load.illegal=false;
