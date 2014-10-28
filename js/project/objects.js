@@ -743,6 +743,7 @@ function createLoad(){
 
 	o.get=getData;
 	o.load=readLayout;
+	o.scrSize=[];
 
 	return o;
 }

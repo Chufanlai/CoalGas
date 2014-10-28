@@ -9,7 +9,15 @@ function readLayout(file){
 				alert("Incorrect data format!");
 				return;
 			}
-		}			
+		}
+		else
+			if(id==tlength-1 && t.Type=="svg"){
+				Load.scrSize=t.Width.split("_");
+				Load.scrSize[0]=parseFloat(Load.scrSize[0]);
+				Load.scrSize[1]=parseFloat(Load.scrSize[1]);
+				fixSize();
+				return;
+			}
 		var tpos=t.Pos;
 		tpos=[parseFloat(tpos.substring(0,tpos.indexOf("_"))),
 			parseFloat(tpos.substring(tpos.indexOf("_")+1,tpos.length))];
@@ -255,7 +263,7 @@ function getData(sample){
 } 
 
 function getLength(text){
-	return text.split(",").length;
+	return (text.split(",").length-1)/4-1;
 }
 
 function clearFile(){
@@ -338,4 +346,16 @@ function fixCSS(restore){
 		$(".thick_border")
 		.css("stroke-width",10);		
 	}
+}
+
+function fixSize(){
+	var h=parseFloat($("#canvas").css("height"));
+	var w=parseFloat($("#canvas").css("width"));
+	var aw=w,ah=h;
+	var tasp=Load.scrSize[1]/Load.scrSize[0];
+	if(w*tasp>h)
+		aw=h/tasp;
+	else
+		ah=w*tasp;
+	$("#svgContent").attr("transform","scale("+(aw/Load.scrSize[0])+","+(ah/Load.scrSize[1])+")");
 }

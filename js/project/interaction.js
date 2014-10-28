@@ -23,8 +23,8 @@ $("#canvas").contextMenu('myMenu1', {
 			for(var i=o.length-1;i>=0;i--){
 				var d=$(o[i]), id=d.attr("id");
 				var to=$("#resize"+id);
-				d.insertAfter("#background");
-				to.insertAfter("#background");
+				d.insertAfter("#svgHead");
+				to.insertAfter("#svgHead");
 			}
 	    },
 	    'delete': function(t){
@@ -226,6 +226,7 @@ $("#saveData").on("click", function(e) {
 	.each(function(id,d){
 		savData+=(objects.save($(this).attr("id"))+"\n");
 	});
+	savData+="svg,0,"+$("#canvas").css("width")+"_"+$("#canvas").css("height")+",0,0\n"
     var url =  encodeURIComponent(savData);  
     url = "data:text/csv;charset=utf-8,\ufeff"+url; 
 	var a=d3.select("body")
@@ -264,7 +265,6 @@ $("#sampleData").on("click", function (e) {
 	var k=setInterval(function(){
 		if(Load.readAll){
 			clearInterval(k);
-			clearFile();
 			Load.readAll=false;
 			objects.clear();
 			svg.attr("transform","scale(1,1)translate(0,0)");
@@ -277,7 +277,6 @@ $("#sampleData").on("click", function (e) {
 			Load.load(Load.contents);
 		}
 	},100);
-	clearFile();
 });
 
 $("#Cansel").on("click", function (e) {
@@ -1024,3 +1023,14 @@ $(".legend").on("click", function(e){
 		default:
 	}
 })
+
+$(window).resize(function(){
+	if(!Load.scrSize[0])
+		Load.scrSize=svg_size.slice(0);
+	var w=parseInt($("#canvas").css("width"));
+	var h=w*svg_size[1]/svg_size[0];
+	$("#canvas").css("height",h);
+	var ws=d3.scale.linear().range([0,1]).domain([0,Load.scrSize[0]]);
+	var hs=d3.scale.linear().range([0,1]).domain([0,Load.scrSize[1]]);
+	$("#svgContent").attr("transform","scale("+ws(w)+","+hs(h)+")");
+});
