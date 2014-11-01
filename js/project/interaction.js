@@ -72,7 +72,8 @@ $("#canvas").contextMenu('myMenu1', {
 				Mouse.rightID=undefined;
 		}
         if (!Mouse.rightID) {
-          	$('#addConnection', menu).remove();
+        	Mouse.rightID="root";
+          	//$('#addConnection', menu).remove();
           	$('#edit', menu).remove();        		
         }
         else{
@@ -132,6 +133,10 @@ $("#plus").on("click",function(e){
 });
 
 $("#plus").tooltip();
+$("#zoomin").on("click",function (e){
+	//Mouse.zooming=true;
+});
+$("#zoomout").on("click",function (e){});
 
 $("#slider").slider({
     animate: true,
@@ -380,8 +385,41 @@ function press(){
 function move(){
 	if(Mouse.mouseOut)
 		Mouse.mouseOut=false;
+	var pos=d3.mouse($("#canvas")[0]);
+	/*
+	if(Mouse.zooming){
+		if(!Mouse.zoomed){
+			if(!$("#zoomFrame")[0]){
+				var s=$("#canvas");
+				Mouse.zoomSize=[svg_size[0]/2,svg_size[1]/2];
+				var tsize=Mouse.zoomSize;
+				var tx=Math.max(pos[0]-tsize[0]/2,0);
+				tx=Math.min(svg_size[0],tx+tsize[0])-tsize[0];
+				var ty=Math.max(pos[1]-tsize[1]/2,0);
+				ty=Math.min(svg_size[1],ty+tsize[1])-tsize[1];
+				svg.append("rect")
+				.attr("x",tx)
+				.attr("y",ty)
+				.attr("width",tsize[0])
+				.attr("height",tsize[1])
+				.attr("class","zoomFrame")
+				.attr("id","zoomFrame");
+			}
+			else{
+				var tsize=Mouse.zoomSize;
+				var tx=Math.max(pos[0]-tsize[0]/2,0);
+				tx=Math.min(svg_size[0],tx+tsize[0])-tsize[0];
+				var ty=Math.max(pos[1]-tsize[1]/2,0);
+				ty=Math.min(svg_size[1],ty+tsize[1])-tsize[1];
+				$("#zoomFrame")
+				.attr("x",tx)
+				.attr("y",ty);
+				return;
+			}
+		}
+	}
+	*/
 	if(Mouse.connect){
-		var pos=d3.mouse($("#canvas")[0]);
 		var t="";
 		for(var i=0;i<Mouse.connectPath.length-1;i++)
 			t=t+Mouse.connectPath[i];
@@ -392,7 +430,6 @@ function move(){
 	if(Mouse.mouseOn){
 		if(!Mouse.dragging)
 			Mouse.dragging=true;
-		var pos=d3.mouse($("#canvas")[0]);
 		var o=$("g#"+Mouse.mouseID);
 		var t;
 		if(Mouse.resize){
@@ -531,6 +568,31 @@ function out(){
 function release(){
 	if(d3.event.which!=1)
 		return;
+	/*
+	if(Mouse.zooming){
+		if(!Mouse.mouseOut){
+			Mouse.zoomed=true;
+			zoom();
+		}
+		$("#zoomFrame").remove();
+	}
+	*/
+	if(Mouse.connect && Mouse.mouseID==""){
+		var stop=false;
+		if(Mouse.dblClock>0){
+			clearInterval(Mouse.dblClock);
+			if(Mouse.dblCount<=3){
+				Mouse.mouseObj={name:"root"};
+				Mouse.dblClock=0;
+				stop=true;
+			}
+			Mouse.dblCount=0;
+		}
+		if(!stop)
+			Mouse.dblClock=setInterval(function(){
+				Mouse.dblCount++;
+			},50);
+	}
 	if(Mouse.connect){
 		var pos=d3.mouse($("#canvas")[0]);
 		var tpos=getPath(Mouse.connectStart, pos);
@@ -720,19 +782,20 @@ function changeObject(sobj){
 }
 
 function resetKey(){
-	Key.ctrl=false;
+	this.ctrl=false;
 }
 
 function resetMouse(){
-	Mouse.mouseOn=false;
-	Mouse.dragging=false;
-	Mouse.resize=false;
-	Mouse.multiple=false;
-	Mouse.brush=false;
-	Mouse.dragID="";
-	Mouse.mouseID="";
-	Mouse.mouseObj=undefined;
-	Mouse.resizeOrd=-1;
+	this.mouseOn=false;
+	this.dragging=false;
+	this.resize=false;
+	this.multiple=false;
+	this.brush=false;
+	this.dragID="";
+	this.mouseID="";
+	this.mouseObj=undefined;
+	this.resizeOrd=-1;
+	this.zooming=false;
 }
 
 function deleteSel(){
@@ -798,7 +861,7 @@ function changeText(string){
  			    .data(string.split(""))
  			.enter().append("tspan")
  				.attr("x", 0)
- 			    .attr("dy", "0.9em")
+ 			    .attr("dy", "0.95em")
  			    .text(function(d){return d;});
 	} else {
 		$("#"+this.name+" text")
@@ -851,4 +914,15 @@ function getPath(start, end){
 		}
 		else
 			return [start[0], end[1]];
+}
+
+function zoom() {/*
+	var o=$("#zoomFrame");
+	var tr=[parseFloat(o.attr("x")),parseFloat(o.attr("y"))];
+	var tsize=[parseFloat(o.attr("width")),parseFloat(o.attr("height"))];
+	tr[0]=tr[0]+tsize[0]/2-svg_size[0]/2;
+	tr[1]=tr[1]+tsize[1]/2-svg_size[1]/2;
+	var t="scale("+svg_size[0]/tsize[0]+","+svg_size[1]/tsize[1]+")translate("+tr+")";
+	svg.attr("transform",t);
+	*/
 }

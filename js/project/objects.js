@@ -707,9 +707,14 @@ function createMouse(){
 	o.multiple=false;//multiple operation or not
 	o.resizeOrd=-1;
 	o.brush=false;//brush selection
+	o.dblClock=0;
+	o.dblCount=0;
 	o.rightID="";//rightclick object
 	o.rightPos;//mouse rightclick position
 	o.connect=false;//connect mode
+	o.zooming=false;
+	o.zoomed=false;
+	o.zoomSize=[];
 	o.connectStart=[];
 	o.connectPath=[];
 	o.connectSize=[];
@@ -744,7 +749,7 @@ function getOriginalText(){
  				    .data(this.string.split(""))
  				.enter().append("tspan")
  					.attr("x", 0)
- 				    .attr("dy", "0.9em")
+ 				    .attr("dy", "0.95em")
  					.text(function(d){return d;});
 	} else {
 		tempText = 	d3.select("#canvas")
