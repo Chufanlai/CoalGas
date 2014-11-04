@@ -771,6 +771,7 @@ function createMouse(){
 	o.zooming=false;
 	o.zoomed=false;
 	o.zoomSize=[];
+	o.zoomOrigin=[1,1];
 	o.connectStart=[];
 	o.connectPath=[];
 	o.connectSize=[];

@@ -1003,7 +1003,7 @@ function zoom(sign) {
 		svg.attr("transform",t);
 	}
 	else{
-		var t="scale(1,1)translate(0,0)";
+		var t="scale("+Mouse.zoomOrigin+")translate(0,0)";
 		svg.attr("transform",t);			
 	}
 }
@@ -1067,4 +1067,5 @@ $(window).resize(function(){
 	var ws=d3.scale.linear().range([0,1]).domain([0,Load.scrSize[0]]);
 	var hs=d3.scale.linear().range([0,1]).domain([0,Load.scrSize[1]]);
 	$("#svgContent").attr("transform","scale("+ws(w)+","+hs(h)+")");
+	Mouse.zoomOrigin=[ws(w),hs(h)];
 });
