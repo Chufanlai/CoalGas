@@ -844,8 +844,16 @@ function showText() {
 			 	+","+this.scales[1](this.size[1])+")"+"rotate("+this.rotate+","+this.origin[0]/2+","+this.origin[1]/2+")")
 			 .on("mouseover", appear)
 			 .on("mouseout", disappear)
-			 .on("mousedown", press)
-			 .on("dblclick", textEdit);
+			 .on("mousedown", press);
+	if(this.dataID!=""){
+		g.classed("data_"+this.dataID,true)
+		.classed("dataDisplay",true)
+		.append("title")
+		.text("data: "+this.dataID);
+		g.on("dblclick", dataEdit);
+	}
+	else
+		g.on("dblclick", textEdit);
 	this.draw(g, "text");
 }
 

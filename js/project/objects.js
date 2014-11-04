@@ -688,6 +688,7 @@ function createText(pos, width, rotate, value, name) {
 	o.getOriginalText();
 
 	o.color=value[2];
+	o.dataID=value[3];
 	o.pos=pos;
 	var twidth=width/(o.vertical?o.asp:1);
 	o.size=[twidth,twidth*o.asp];

@@ -160,10 +160,14 @@ $("#slider").slider({
 
 $(".addText").on("click",function(e){
 	if(d3.select(this).classed("horizontal"))
-		addMyText(init_text,false,"black");
+		addMyText(init_text,false,"black","");
 	else
-		addMyText(init_text,true,"black");
+		addMyText(init_text,true,"black","");
 });
+
+$("#display").on("click", function (e) {
+	var o=addMyText("????",false,"#FFCC00","undefined");
+})
 
 $("#setText").on("click", function (e) {
 	if(textTarget!=""){
@@ -173,6 +177,22 @@ $("#setText").on("click", function (e) {
 			t="undefined";
 		o.change(t);
 		$("#inputContent").val("");
+	}
+});
+
+$("#setData").on("click", function (e) {
+	if(textTarget!=""){
+		var o=objects.find(textTarget);
+		var t=$("#dataContent").val();
+		if(t=="")
+			t="undefined";
+		d3.select("#"+o.name)
+		.classed("data_"+o.dataID,false)
+		.classed("data_"+t,true);
+		o.dataID=t;
+		o.attr[3]=t;
+		$("#"+o.name).find("title").text("data: "+t);
+		$("#dataContent").val("");
 	}
 });
 
@@ -298,13 +318,14 @@ d3.select("#canvas")
 .on("mouseout", out);
 
 //AJI changed here
-function addMyText(string, vertical, color) {
+function addMyText(string, vertical, color, dataID) {
 	var tang=Math.random()*Math.PI/2;
 	var t=getStartPoint();
-	var o=objects.create([t[0]+Math.cos(tang)*rand_r,t[1]+Math.cos(tang)*rand_r],init_size*3,0,"text"+"_"+objects.ID["text"],"text",[string, vertical, color]);
+	var o=objects.create([t[0]+Math.cos(tang)*rand_r,t[1]+Math.cos(tang)*rand_r],dataID==""?init_size*3:init_size,0,"text"+"_"+objects.ID["text"],"text",[string, vertical, color, dataID]);
 	o.init();
 	objects.array["text"].push(o);
 	objects.ID["text"]++;
+	return o;
 }
 
 function appear(){
@@ -857,6 +878,19 @@ function textEdit(){
 		textTarget=Mouse.rightID;
 }
 
+function dataEdit(){
+	$("#inputData").modal({
+		show: true,
+		keyboard: false
+	});
+	var t=$(this).find("title").text().replace("data: ","");
+	$("#dataContent").val(t);
+	if(this.id && objects.type(this.id)=="text")
+		textTarget=this.id;
+	else
+		textTarget=Mouse.rightID;
+}
+
 function connectEdit(){
 	var id=this.id? this.id:Mouse.rightID;
 	if(this.id && objects.type(this.id)=="connection"){
@@ -908,7 +942,7 @@ function changeText(string){
 		.attr("stroke",this.color);
 	}
 	this.string=string;
-	this.attr=[this.string,this.vertical,this.color];
+	this.attr=[this.string,this.vertical,this.color,this.dataID];
 	this.getOriginalText();
 	this.size[0]=d3.select("#"+this.name + " text").node().getBoundingClientRect().width;
 	this.size[1]=d3.select("#"+this.name + " text").node().getBoundingClientRect().height;
