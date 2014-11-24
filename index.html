@@ -3,203 +3,52 @@
 	<head>		
 		<meta http-equiv="X-UA-Compatible" content="IE-edge">
 		<meta charset="UTF-8">
-		<title>Coal Gas Production System Layout</title>
+		<title>CoalGas Simulation System</title>
 		<link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap.css" media="screen">	
 		<link rel="stylesheet" type="text/css" href="css/project/project.css" media="screen">
 		<link rel="stylesheet" type="text/css" href="css/tools/jquery.cxcolor/jquery.cxcolor.css" media="screen">
 		<link rel="stylesheet" type="text/css" href="css/tools/jquery-ui.css" media="screen">
+		<link rel="stylesheet" type="text/css" href="css/tools/jquery.dataTables.css" media="screen">
+		<!--<link rel="stylesheet" type="text/css" href="css/tools/mbExtruder.css" media="screen">-->
 		<script type="text/javascript" src="js/jquery/jquery-2.1.1.js"></script>
 		<script type="text/javascript" src="js/jquery/jquery.mousewheel.js"></script>
-		<script type="text/javascript" src="js/jquery/jquery-ui-1.11.1.custom/jquery-ui.js"></script>
+		<script type="text/javascript" src="js/jquery/jquery.dataTables.js"></script>
+		<script type="text/javascript" src="js/jquery/jquery-ui-1.11.2.custom/jquery-ui.js"></script>
 		<script type="text/javascript" src="js/bootstrap/bootstrap.js"></script>
 		<script type="text/javascript" src="js/d3.v3/d3.v3.js"></script>
 		<script type="text/javascript" src="js/tools/svg-crowbar.js"></script>
 		<script type="text/javascript" src="js/tools/contextmenu.js"></script>
 		<script type="text/javascript" src="js/tools/jquery.cxcolor.js"></script>
+		<!--
+		<script type="text/javascript" src="js/tools/jquery.mb.flipText.js"></script>
+		<script type="text/javascript" src="js/tools/jquery.hoverIntent.min.js"></script>
+		<script type="text/javascript" src="js/tools/mbExtruder.js"></script>
+		-->
 	</head>
-	<body>
-	<div class="contextMenu" id="myMenu1">
-      <ul>
-        <li id="addConnection"><span class="glyphicon glyphicon-link"></span> Link To</li>
-        <li id="edit"><span class="glyphicon glyphicon-cog"></span> Edit</li>
-        <li id="rotate"><span class="glyphicon glyphicon-repeat"></span> Rotate</li>
-        <li id="moveToTop"><span class="glyphicon glyphicon-arrow-up"></span> Top</li>
-        <li id="moveToBottom"><span class="glyphicon glyphicon-arrow-down"></span> Bottom</li>
-        <li id="copy"><span class="glyphicon glyphicon-file"></span> Copy</li>
-        <li id="delete"><span class="glyphicon glyphicon-trash"></span> Delete</li>
-      </ul>
-    </div>
-	<div class="container">
-		<h2 class="page-header">Coal Gas Production System Layout</h2>
-		<div class="row">
-			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-				<div class="btn-toolbar" role="toolbar">
-					<div class="btn-group">
-						<button type="button" class="btn btn-default" data-toggle="modal" data-target="#loadModal"><span class="glyphicon glyphicon-folder-open"></span> Load </button>
-						<div class="btn-group">
-							<div class="dropdown">
-								<button type="button" class="btn btn-default dropdown dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="save_menu">
-									<span class="glyphicon glyphicon-save"></span> Save 
-									<span class="caret"></span>
-									<span class="sr-only">Toggle Dropdown</span>
-								</button>
-								<ul id="menu1" class="dropdown-menu" role="menu" aria-labelledby="save_menu">
-									<li class="objectSel" id="saveSvg"><a>Svg File</a></li>
-									<li class="objectSel" id="saveData"><a>Layout File</a></li>
-								</ul>
-							</div>
-						</div>
-					</div>
-					<div class="btn-group">						
-						<button type="button" class="btn btn-default" data-toggle="modal" data-target="#legend">Legends</button>
-						<button type="button" class="btn btn-default" data-toggle="modal" data-target="#original">Original</button>
-						<button type="button" class="btn btn-default"><a href="http://vis.pku.edu.cn/CoalGas/sources/instruction.pdf" target="_blank">Instruction</a></button>
-					</div>
-					<div class="btn-group">
-						<div class="btn-group">
-							<div class="dropdown">
-								<button type="button" class="btn btn-default dropdown dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="containers">
-									Containers
-									<span class="caret"></span>
-									<span class="sr-only">Toggle Dropdown</span>
-								</button>
-								<ul id="menu1" class="dropdown-menu" role="menu" aria-labelledby="containers">
-									<li class="objectSel" id="bucket" srcsize="sm"><a>bucket <span class="glyphicon"></span></a></li>
-									<li class="objectSel" id="separator" srcsize="md"><a>separator <span class="glyphicon"></span></a></li>
-									<li class="objectSel" id="feeder" srcsize="lg"><a>feeder <span class="glyphicon"></span></a></li>
-									<li class="objectSel" id="tank1" srcsize="sm"><a>tank1 <span class="glyphicon"></span></a></li>
-									<li class="objectSel" id="tank2" srcsize="sm"><a>tank2 <span class="glyphicon"></span></a></li>
-									<li class="objectSel" id="tank3" srcsize="sm"><a>tank3 <span class="glyphicon"></span></a></li>
-								</ul>
-							</div>
-						</div>
-						<div class="btn-group">
-							<div class="dropdown">
-								<button type="button" class="btn btn-default dropdown dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="valves">
-									Valves
-									<span class="caret"></span>
-									<span class="sr-only">Toggle Dropdown</span>
-								</button>
-								<ul id="menu2" class="dropdown-menu" role="menu" aria-labelledby="valves">
-									<li class="objectSel" id="valve1" srcsize="sm"><a>valve1 <span class="glyphicon"></span></a></li>
-									<li class="objectSel" id="valve2" srcsize="sm"><a>valve2 <span class="glyphicon"></span></a></li>
-									<li class="objectSel" id="valve3" srcsize="ssm"><a>valve3 <span class="glyphicon"></span></a></li>
-									<li class="objectSel" id="valve4" srcsize="sm"><a>valve4 <span class="glyphicon"></span></a></li>
-									<li class="objectSel" id="valve5" srcsize="sm"><a>valve5 <span class="glyphicon"></span></a></li>
-									<li class="objectSel" id="valve6" srcsize="sm"><a>valve6 <span class="glyphicon"></span></a></li>
-									<li class="objectSel" id="valve7" srcsize="sm"><a>valve7 <span class="glyphicon"></span></a></li>
-									<li class="objectSel" id="valve8" srcsize="ssm"><a>valve8 <span class="glyphicon"></span></a></li>
-									<li class="objectSel" id="valve9" srcsize="sm"><a>valve9 <span class="glyphicon"></span></a></li>
-									<li class="objectSel" id="valve10" srcsize="sm"><a>valve10 <span class="glyphicon"></span></a></li>
-									<li class="objectSel" id="valve11" srcsize="sm"><a>valve11 <span class="glyphicon"></span></a></li>
-								</ul>
-							</div>
-						</div>
-						<div class="btn-group">
-							<div class="dropdown">
-								<button type="button" class="btn btn-default dropdown dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="others">
-									Others
-									<span class="caret"></span>
-									<span class="sr-only">Toggle Dropdown</span>
-								</button>
-								<ul id="menu3" class="dropdown-menu" role="menu" aria-labelledby="others">
-									<li class="objectSel" id="monitoring" srcsize="ssm"><a>monitoring point <span class="glyphicon"></span></a></li>
-									<li class="objectSel" id="diode" srcsize="sm"><a>diode <span class="glyphicon"></span></a></li>
-									<li class="objectSel" id="arrow" srcsize="sssm"><a>arrow <span class="glyphicon"></span></a></li>
-									<li class="objectSel" id="capacitor" srcsize="sssm"><a>capacitor <span class="glyphicon"></span></a></li>
-									<li class="objectSel" id="conveyer" srcsize="lg"><a>conveyer <span class="glyphicon"></span></a></li>
-									<li class="objectSel" id="gauge" srcsize="xs"><a>gauge1 <span class="glyphicon"></span></a></li>
-									<li class="objectSel" id="gauge2" srcsize="ssm"><a>gauge2 <span class="glyphicon"></span></a></li>
-									<li class="objectSel" id="vibrating" srcsize="lg"><a>vibrating feeder <span class="glyphicon"></span></a></li>
-									<li class="objectSel" id="nozzle" srcsize="sm"><a>nozzle <span class="glyphicon"></span></a></li>
-								</ul>
-							</div>
-						</div>
-						<div class="btn-group">
-							<button class="btn btn-default" type="button" id="plus" data-toggle="tooltip" data-placement="top" title="No Object">
-								<span class="glyphicon glyphicon-plus"></span>
-							</button>
-						</div>
-					</div>					
-					<div class="btn-group">
-						<button class="btn btn-default" type="button" id="zoom" data-toggle="tooltip" data-placement="top">
-							<span class="glyphicon glyphicon-zoom-in"></span> Zooming
-						</button>
-						<div class="btn-group">
-							<div class="dropdown">
-								<button type="button" class="btn btn-default dropdown dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="addText">
-									Text
-									<span class="caret"></span>
-									<span class="sr-only">Toggle Dropdown</span>
-								</button>
-								<ul id="menu4" class="dropdown-menu" role="menu" aria-labelledby="valves">
-									<li class="horizontal addText"><a>horizontal <span class="glyphicon"></span></a></li>
-									<li class="vertical addText"><a>vertical <span class="glyphicon"></span></a></li>
-								</ul>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- Modal -->
-		<div class="modal fade bs-example-modal-sm" id="inputText" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-		  <div class="modal-dialog modal-sm">
-		    <div class="modal-content">
-		      <div class="modal-header">
-		        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-		        <h4 class="modal-title" id="myModalLabel">Text Input</h4>
-		      </div>
-		      <div class="modal-body">
-		      	<div class="input-group input-group-md">
-		      		<div class="row">
-		      			<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10" style="padding-right:2px">
-							<input type="text" class="form-control" id="inputContent" placeholder="Text Content ...">      				
-		      			</div>
-		      			<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1" style="padding-left:2px;height:100%">
-		      				<input id="TextColorPicker" class="form-control input_cxcolor">
-						</div>
-		      		</div>
-				</div>
-		      </div>
-		      <div class="modal-footer">
-		        <button type="button" class="btn btn-default" data-dismiss="modal" id="setText">OK</button>
-		        <button type="button" class="btn btn-default" data-dismiss="modal" id="Cansel">Cansel</button>
-		      </div>
-		    </div>
-		  </div>
-		</div>
-		<!-- Modal -->
-		<div class="modal fade bs-example-modal-sm" id="inputConnect" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-		  <div class="modal-dialog modal-sm">
-		    <div class="modal-content">
-		      <div class="modal-header">
-		        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-		        <h4 class="modal-title" id="myModalLabel">Connection Edit</h4>
-		      </div>
-		      <div class="modal-body">
-	      		<div class="row" style="height:35px">
-	      			<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="padding-right:2px">
-						<span id="showWidth">Width: 10</span>
-	      			</div>
-	      			<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8" style="padding-left:2px;height:100%">
-						<div id="slider"></div>      				
-	      			</div>
-	      		</div>
-	      		<div class="row">
-	      			<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">Color: </div>
-	      			<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-	      				<input id="ConnectColorPicker" class="form-control input_cxcolor">
-					</div>
-	      		</div>
-		      </div>
-		      <div class="modal-footer">
-		        <button type="button" class="btn btn-default" data-dismiss="modal" id="setConnect">OK</button>
-		        <button type="button" class="btn btn-default" data-dismiss="modal" id="Cansel">Cansel</button>
-		      </div>
-		    </div>
-		  </div>
-		</div>
+	<body>	
+	<div class="container-fluid">
+		<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+			<div class="container-fluid">
+			    <div class="navbar-header">
+				    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-
+				     collapse-1">
+					    <span class="sr-only">Toggle navigation</span>
+					    <span class="icon-bar"></span>
+					    <span class="icon-bar"></span>
+					    <span class="icon-bar"></span>
+				    </button>
+      				<a class="navbar-brand text-center"><strong>CoalGas Simulation System</strong></a>
+			    </div>
+				<div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
+			      	<ul class="nav navbar-nav">
+				        <li class="myBtn" data-toggle="modal" data-target="#loadModal"><a><span class="glyphicon glyphicon-folder-open"></span> Load</a></li>
+			      	</ul>
+			      	<ul class="nav navbar-nav">
+			      		 <li class="myBtn" id="zoom"><a><span class="glyphicon glyphicon-zoom-in"></span> Zooming</a></li>
+			      	</ul>
+		  		</div>
+		  	</div>
+		</nav>
 		<!-- Modal -->
 		<div class="modal fade bs-example-modal-sm" id="loadModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		  <div class="modal-dialog modal-sm">
@@ -218,85 +67,20 @@
 		    </div>
 		  </div>
 		</div>
-		<!-- Modal -->
-			<div class="modal fade bs-example-modal-lg" id="legend" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-			  	<div class="modal-dialog modal-lg">
-			    	<div class="modal-content" style="text-align:center">
-			      		<div class="modal-header">
-			        		<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-			        		<h3 class="modal-title" id="myModalLabel">Legends</h3>
-			      		</div>
-				      	<div class="modal-body">
-					      	<div class="container" style="width:100%;height:350px">
-					      		<div class="row">
-					      			<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-					      				<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-					      					<div class="panel panel-default legend" id="1">
-					      						<div class="panel-heading">
-											      <h4 class="panel-title" style="cursor:pointer">
-											          Containers
-											      </h4>
-										      	</div>
-					      					</div>
-					      					<div class="panel panel-default legend" id="2">
-					      						<div class="panel-heading">
-											      <h4 class="panel-title" style="cursor:pointer">
-											          Valves
-											      </h4>
-										      	</div>
-					      					</div>
-					      					<div class="panel panel-default legend" id="3">
-					      						<div class="panel-heading">
-											      <h4 class="panel-title" style="cursor:pointer">
-											          Others
-											      </h4>
-										      	</div>
-					      					</div>
-					      				</div>
-						      		</div>
-					      			<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 legendUnit" id="containersLegend" style="display:none">
-						      			<div class="media">
-										  <a class="pull-left" href="#">
-										    <img class="media-object" src="sources/containers.png" width="100%" alt="containers">
-										  </a>
-										</div>
-					      			</div>
-					      			<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 legendUnit" id="valvesLegend" style="display:none">
-						      			<div class="media">
-										  <a class="pull-left" href="#">
-										    <img class="media-object" src="sources/valves.png" width="100%" alt="valves">
-										  </a>
-										</div>
-					      			</div>
-					      			<div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 legendUnit" id="othersLegend" style="display:none">
-						      			<div class="media">
-										  <a class="pull-left" href="#">
-										    <img class="media-object" src="sources/others.png" width="100%" alt="others">
-										  </a>
-										</div>
-					      			</div>
-					      		</div>
-					      	</div>
-				      	</div>
-			      	</div>
-			    </div>
-			</div>
-		<!-- Modal -->
-		<div class="modal fade bs-example-modal-lg" id="original" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-		  <div class="modal-dialog modal-lg" style="text-align:center">
-		    <div class="modal-content">
-		      <div class="modal-header">
-		        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-		        <h3 class="modal-title" id="myModalLabel" width="100%">Original Layout</h3>
-		      </div>
-		      <div class="modal-body">
-		      	<img src="sources/original_layout.bmp" width="100%">
-		      </div>
-		    </div>
-		  </div>
-		</div>
 		<div class="row">
-			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 svg-container">
+			<div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" id="myTable-container">
+				<table id="myTable" class="display">
+				    <thead>
+				        <tr>
+				            <th>ID</th>
+				            <th>Name</th>
+				        </tr>
+				    </thead>
+				    <tbody>
+				    </tbody>
+				</table>
+			</div>
+			<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8 col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-xs-offset-1 svg-container">
 				<svg id="canvas">
 					<g id="Gradients">
 						<linearGradient id="metal0" gradientUnits="userSpaceOnUse" x1="24.6035" y1="65.0845" x2="309.5156" y2="65.0845">
@@ -868,15 +652,21 @@
 				</svg>
 			</div>
 		</div>
+		<div class="row">
+			<svg id="vis_1">
+			</svg>
+		</div>
 		<script type="text/javascript" src="js/project/data.js"></script>
 		<script type="text/javascript" src="js/project/objects.js"></script>
 		<script type="text/javascript" src="js/project/drawing.js"></script>
 		<script type="text/javascript" src="js/project/interaction.js"></script>
 		<script type="text/javascript">
+			$(".svg-container").parent().css("padding-top",$(".navbar").css("height"));
 			var svg=d3.select("#canvas")
 			.attr("width","100%")
-			.attr("height",parseInt($(".svg-container").css("width"))/4*2)//parseInt($(".svg-container").css("height"))-180
+			.attr("height",parseInt($(".svg-container").css("width"))/2)//parseInt($(".svg-container").css("height"))-180
     		.append("g")
+    		.attr("id","svgContent")
     		.attr("transform","scale(1,1)translate(0,0)");
 			svg.append("rect")
 			.attr("x",0)
@@ -884,15 +674,29 @@
 			.attr("width","100%")
 			.attr("height","100%")
 			.attr("fill","#489191")
-			.attr("stroke","#000")
+			.attr("stroke","none")
 			.attr("id","background");
+			var vis1=d3.select("#vis_1")
+			.attr("width","100%")
+			.attr("height","100%")
+			.append("g").
+			attr("id","visContent");
+			vis1.append("rect")
+			.attr("x",0)
+			.attr("y",0)
+			.attr("width","100%")
+			.attr("height","100%")
+			.attr("fill","#FFF")
+			.attr("stroke","none")
+			.attr("id","white");
+			var Vis, vis1_size=[parseFloat($("#vis_1").css("width")),parseFloat($("#vis_1").css("height"))];
 			var selObj="", selSize="", textTarget="", connectTarget="";
 			var objTypes=["bucket","tank1","tank2","tank3","separator","feeder",
 			"valve1","valve2","valve3","valve4","valve5","valve6","valve7","valve8","valve9","valve10","valve11",
 			"conveyer","gauge","gauge2","vibrating","capacitor","nozzle","arrow","diode","monitoring","text","connection"];//Change here
-			var objects=createObjects(objTypes);
+			var objects=createObjects(objTypes), myData=createData();
 			var Mouse=createMouse(), Key=createKey(), Load=createLoad(), clipbord=[], init_text="Double click to edit";
-			var pt_r=3, init_size=80, min_wid=3, rand_r=20, svg_size=[parseFloat($("#canvas").css("width")),parseFloat($("#canvas").css("height"))];
+			var pt_r=3, init_size=80, min_wid=3, rand_r=20, svg_size=[parseFloat($("#canvas").css("width")),parseFloat($("#canvas").css("height"))], zoom_limit=[svg_size[0],svg_size[1]];
 			var textCol, connectCol;
 			var test, testzoom=true;
 		</script>

@@ -10,6 +10,15 @@ function readLayout(file){
 				return;
 			}
 		}			
+		else{
+			if(id==tlength-1 && t.Type=="svg"){
+				Load.scrSize=t.Width.split("_");
+				Load.scrSize[0]=parseFloat(Load.scrSize[0]);
+				Load.scrSize[1]=parseFloat(Load.scrSize[1]);
+				fixSize();
+				return;
+			}
+		}
 		var tpos=t.Pos;
 		tpos=[parseFloat(tpos.substring(0,tpos.indexOf("_"))),
 			parseFloat(tpos.substring(tpos.indexOf("_")+1,tpos.length))];
@@ -229,22 +238,34 @@ function createObject(pos, width, rotate, name, type, value){//Change here
 }
 
 //loading files
-function getData(){
-    var file = document.getElementById("File").files[0];  
-    var reader = new FileReader();
-    //Read data as text 
-    reader.readAsText(file);  
-    reader.onload=function(f){
-    	Load.contents=this.result;
-    	Load.readAll=true;
-    	if(Load.illegal){
-    		Load.ready=true;
-    	}
-    }
+function getData(sample){
+	if(sample){
+		d3.text("sources/layout.csv")
+		.get(function(e,d){
+			Load.contents=d;
+			Load.illegal=false;
+			Load.readAll=true;
+			Load.ready=true;
+		});
+	}
+	else{
+	    var file = document.getElementById("File").files[0];  
+	    var reader = new FileReader();
+	    //Read data as text 
+	    reader.readAsText(file);  
+	    reader.onload=function(f){
+	    	Load.contents=this.result;
+	    	Load.readAll=true;
+	    	if(Load.illegal){
+	    		Load.ready=true;
+	    	}
+	    }
+	}
 } 
 
 function getLength(text){
-	return text.split(",").length;
+	var t=Load.header.match(/,/g);
+	return (text.split(",").length-1)/t.length-1;
 }
 
 function clearFile(){
@@ -310,3 +331,189 @@ function getConnectionPath(){
 	this.path_fills=["none"];
 }
 */
+
+function fixCSS(restore){
+	if(!restore){
+		$(".normal")
+		.css("stroke-width",0.5);
+		$(".thick_border")
+		.css("stroke-width",1);
+		$("#background")
+		.attr("width",svg_size[0])
+		.attr("height",svg_size[1]);
+	}
+	else{
+		$(".normal")
+		.css("stroke-width",1);
+		$(".thick_border")
+		.css("stroke-width",10);		
+	}
+}
+
+function fixSize(){
+	var h=parseFloat($("#canvas").css("height"));
+	var w=parseFloat($("#canvas").css("width"));
+	var aw=w,ah=h;
+	var tasp=Load.scrSize[1]/Load.scrSize[0];
+	if(w*tasp>h)
+		aw=h/tasp;
+	else
+		ah=w*tasp;
+	$("#svgContent").attr("transform","scale("+(aw/Load.scrSize[0])+","+(ah/Load.scrSize[1])+")");
+	Mouse.zoomOrigin=[aw/Load.scrSize[0],ah/Load.scrSize[1]];
+	zoom_limit=[svg_size[0]/aw*Load.scrSize[0],svg_size[1]/ah*Load.scrSize[1]];
+}
+
+function fixTable(){	
+	$(".dataTables_wrapper .dataTables_filter").css("float","none").css("text-align","center");
+	$("#myTable_info").css("float","none").css("text-align","center");
+	$("#myTable_paginate").css("float","none").css("text-align","center");
+	$(".dataTables_paginate").css("font-weight","bold");
+	$(".extruder .text").css("text-shadow","none");
+	$(".dataTables_scrollBody").css("height", svg_size[1]
+	-parseFloat($("#myTable_filter").css("height"))
+	-parseFloat($(".dataTables_scrollHead").css("height"))
+	-parseFloat($(".dataTables_info").css("height"))
+	-parseFloat($(".dataTables_paginate").css("height")));
+	$(".unbounded td").on("mouseover",function(d){
+		$(this).parent().addClass("chosen");
+	})
+	.on("mouseout",function(e){
+		$(this).parent().removeClass("chosen");
+	});
+	$(".unbounded td").on("mouseover",function(){
+		var tID;
+		if($(this).hasClass("dataID"))
+			tID=$(this).text();
+		else
+			tID=$(this).siblings(".dataID").text();
+		var o=d3.selectAll(".data_"+tID);
+		if(o[0][0])
+			o.classed("highlight",true);
+	});
+	$(".unbounded td").on("mouseout",function(){
+		var tID;
+		if($(this).hasClass("dataID"))
+			tID=$(this).text();
+		else
+			tID=$(this).siblings(".dataID").text();
+		var o=d3.selectAll(".data_"+tID);
+		if(o[0][0])
+			o.classed("highlight",false);
+	});
+}
+
+function formatTest(path){
+	var i=path.indexOf(".csv");
+	return i>0 && i==path.length-4;
+}
+
+function readData(file){ 
+    var reader = new FileReader();
+    //Read data as text 
+    reader.readAsText(file); 
+    reader.onload=function(f){
+    	myData.data=this.result;
+    	myData.ready=true;
+    }
+}
+
+function clearData(){
+	this.data=undefined;
+}
+
+function updateTable(){
+	if(this.dTable)
+		this.dTable=undefined;
+	if(this.table)
+		this.table.destroy();
+	this.dTable=
+	d3.select("#myTable tbody")
+	.selectAll("tr")
+	.data(this.data)
+	.enter()
+	.append("tr")
+	.attr("id",function(d){
+		return d.ID;
+	})
+	.classed("unbounded",true);
+	this.dTable.append("td")
+	.attr("class","dataID")
+	.text(function(d){return d.ID;});
+	this.dTable.append("td")
+	.attr("class","dataName")
+	.text(function(d){return d.Name;});
+	this.table=
+	$("#myTable").DataTable(this.tableOpts);
+	$("#myTable").on("search.dt",fixTable);
+	fixTable();
+}
+
+function preLoad(){
+	d3.text("data/2012-8-18.csv")
+	.get(function(e,d){
+		var t=0, p=-1;
+		myData.data=[];
+		d3.csv.parse(d,function(m){
+			myData.data.push(m);
+			t++;
+		});
+		var k=setInterval(function(d){
+			if(t!=p){
+				p=t;
+				return;
+			}
+			if(t==p){
+				clearInterval(k);
+				myData.init();
+				myData.update();
+				var ts=vis1_size;
+				Vis=createVis1(vis1, [ts[0]*0.1,ts[1]*0.2], [ts[0]*0.8,ts[1]*0.6], myData.attrs);
+				Vis.draw();
+			}
+		},100);
+	});
+}
+
+function normalize(data, bound){
+	var s=d3.scale.linear().range([0,1]).domain(bound), t={};
+	for(var i in data){
+		if(i=="ID" || i=="Name")
+			continue;
+		t[i]=s(data[i]);
+	}
+	return t;
+}
+
+function initDataItems(){
+	var items=[];
+	var attrs=[];
+	for(var i in this.data[0]){
+		if(i=="ID" || i=="Name")
+			continue;
+		attrs.push(i);	
+	}
+	$.each(this.data,function(id,d){
+		if(!$(".data_"+d.ID)[0])
+			return;
+		var t=[],b=true;
+		for(var i in d){
+			if(i=="ID" || i=="Name")
+				continue;
+			d[i]=parseFloat(d[i]);
+			if(b){
+				b=false;
+				t=[d[i],d[i]];
+			}
+			else{
+				if(d[i]<t[0])
+					t[0]=d[i];
+				if(d[i]>t[1])
+					t[1]=d[i];
+			}
+		}
+		items.push(createItem(d,t));
+	});
+	this.items=items;
+	this.attrs=attrs;
+}

@@ -12,10 +12,7 @@ function showBucket(){
 	var g=svg.append("g")
 	.attr("id",this.name)
 	.attr("class","movable object")
-	.attr("transform","translate("+this.pos[0]+","+this.pos[1]+")scale("+this.scales[0](this.size[0])+","+this.scales[1](this.size[1])+")"+"rotate("+this.rotate+","+this.origin[0]/2+","+this.origin[1]/2+")")
-	.on("mouseover",appear)
-	.on("mouseout",disappear)
-	.on("mousedown",press);
+	.attr("transform","translate("+this.pos[0]+","+this.pos[1]+")scale("+this.scales[0](this.size[0])+","+this.scales[1](this.size[1])+")"+"rotate("+this.rotate+","+this.origin[0]/2+","+this.origin[1]/2+")");
 	this.draw(g,"path");
 	this.draw(g,"polygon");
 }
@@ -40,10 +37,7 @@ function showTank1(){
 	var g=svg.append("g")
 	.attr("id",this.name)
 	.attr("class","movable object")
-	.attr("transform","translate("+this.pos[0]+","+this.pos[1]+")scale("+this.scales[0](this.size[0])+","+this.scales[1](this.size[1])+")"+"rotate("+this.rotate+","+this.origin[0]/2+","+this.origin[1]/2+")")
-	.on("mouseover",appear)
-	.on("mouseout",disappear)
-	.on("mousedown",press);
+	.attr("transform","translate("+this.pos[0]+","+this.pos[1]+")scale("+this.scales[0](this.size[0])+","+this.scales[1](this.size[1])+")"+"rotate("+this.rotate+","+this.origin[0]/2+","+this.origin[1]/2+")");
 	this.draw(g,"path");
 	this.draw(g,"polygon");
 	this.draw(g,"line");
@@ -71,10 +65,7 @@ function showTank2(){
 	var g=svg.append("g")
 	.attr("id",this.name)
 	.attr("class","movable object")
-	.attr("transform","translate("+this.pos[0]+","+this.pos[1]+")scale("+this.scales[0](this.size[0])+","+this.scales[1](this.size[1])+")"+"rotate("+this.rotate+","+this.origin[0]/2+","+this.origin[1]/2+")")
-	.on("mouseover",appear)
-	.on("mouseout",disappear)
-	.on("mousedown",press);
+	.attr("transform","translate("+this.pos[0]+","+this.pos[1]+")scale("+this.scales[0](this.size[0])+","+this.scales[1](this.size[1])+")"+"rotate("+this.rotate+","+this.origin[0]/2+","+this.origin[1]/2+")");
 	this.draw(g,"path");
 	this.draw(g,"line");
 }
@@ -94,10 +85,7 @@ function showTank3(){
 	var g=svg.append("g")
 	.attr("id",this.name)
 	.attr("class","movable object")
-	.attr("transform","translate("+this.pos[0]+","+this.pos[1]+")scale("+this.scales[0](this.size[0])+","+this.scales[1](this.size[1])+")"+"rotate("+this.rotate+","+this.origin[0]/2+","+this.origin[1]/2+")")
-	.on("mouseover",appear)
-	.on("mouseout",disappear)
-	.on("mousedown",press);
+	.attr("transform","translate("+this.pos[0]+","+this.pos[1]+")scale("+this.scales[0](this.size[0])+","+this.scales[1](this.size[1])+")"+"rotate("+this.rotate+","+this.origin[0]/2+","+this.origin[1]/2+")");
 	this.draw(g,"path");
 	this.draw(g,"line");
 }
@@ -131,10 +119,7 @@ function showSeparator(){
 	var g=svg.append("g")
 	.attr("id",this.name)
 	.attr("class","movable object")
-	.attr("transform","translate("+this.pos[0]+","+this.pos[1]+")scale("+this.scales[0](this.size[0])+","+this.scales[1](this.size[1])+")"+"rotate("+this.rotate+","+this.origin[0]/2+","+this.origin[1]/2+")")
-	.on("mouseover",appear)
-	.on("mouseout",disappear)
-	.on("mousedown",press);
+	.attr("transform","translate("+this.pos[0]+","+this.pos[1]+")scale("+this.scales[0](this.size[0])+","+this.scales[1](this.size[1])+")"+"rotate("+this.rotate+","+this.origin[0]/2+","+this.origin[1]/2+")");
 	this.draw(g,"polygon");
 	this.draw(g,"path");
 	this.draw(g,"rect");
@@ -198,10 +183,7 @@ function showFeeder(){
 	var g=svg.append("g")
 	.attr("id",this.name)
 	.attr("class","movable object")
-	.attr("transform","translate("+this.pos[0]+","+this.pos[1]+")scale("+this.scales[0](this.size[0])+","+this.scales[1](this.size[1])+")"+"rotate("+this.rotate+","+this.origin[0]/2+","+this.origin[1]/2+")")
-	.on("mouseover",appear)
-	.on("mouseout",disappear)
-	.on("mousedown",press);
+	.attr("transform","translate("+this.pos[0]+","+this.pos[1]+")scale("+this.scales[0](this.size[0])+","+this.scales[1](this.size[1])+")"+"rotate("+this.rotate+","+this.origin[0]/2+","+this.origin[1]/2+")");
 	for(var i in this.rects){
 		var d=this.rects[i];
 		if(i==2)
@@ -251,10 +233,7 @@ function showConveyer(){
 	var g=svg.append("g")
 	.attr("id",this.name)
 	.attr("class","movable object")
-	.attr("transform","translate("+this.pos[0]+","+this.pos[1]+")scale("+this.scales[0](this.size[0])+","+this.scales[1](this.size[1])+")"+"rotate("+this.rotate+","+this.origin[0]/2+","+this.origin[1]/2+")")
-	.on("mouseover",appear)
-	.on("mouseout",disappear)
-	.on("mousedown",press);
+	.attr("transform","translate("+this.pos[0]+","+this.pos[1]+")scale("+this.scales[0](this.size[0])+","+this.scales[1](this.size[1])+")"+"rotate("+this.rotate+","+this.origin[0]/2+","+this.origin[1]/2+")");
 	this.draw(g,"rect");
 	for(var i in this.circles){
 		var d=this.circles[i];
@@ -318,10 +297,7 @@ function showGauge(){
 	var g=svg.append("g")
 	.attr("id",this.name)
 	.attr("class","movable object")
-	.attr("transform","translate("+this.pos[0]+","+this.pos[1]+")scale("+this.scales[0](this.size[0])+","+this.scales[1](this.size[1])+")"+"rotate("+this.rotate+","+this.origin[0]/2+","+this.origin[1]/2+")")
-	.on("mouseover",appear)
-	.on("mouseout",disappear)
-	.on("mousedown",press);
+	.attr("transform","translate("+this.pos[0]+","+this.pos[1]+")scale("+this.scales[0](this.size[0])+","+this.scales[1](this.size[1])+")"+"rotate("+this.rotate+","+this.origin[0]/2+","+this.origin[1]/2+")");
 	this.draw(g,"path");
 	this.draw(g,"rect");
 	d3.select($(g[0][0]).find("path:first")[0])
@@ -388,10 +364,7 @@ function showVibFeeder(){
 	var g=svg.append("g")
 	.attr("id",this.name)
 	.attr("class","movable object")
-	.attr("transform","translate("+this.pos[0]+","+this.pos[1]+")scale("+this.scales[0](this.size[0])+","+this.scales[1](this.size[1])+")"+"rotate("+this.rotate+","+this.origin[0]/2+","+this.origin[1]/2+")")
-	.on("mouseover",appear)
-	.on("mouseout",disappear)
-	.on("mousedown",press);
+	.attr("transform","translate("+this.pos[0]+","+this.pos[1]+")scale("+this.scales[0](this.size[0])+","+this.scales[1](this.size[1])+")"+"rotate("+this.rotate+","+this.origin[0]/2+","+this.origin[1]/2+")");
 	this.draw(g,"path");
 	this.draw(g,"circle");
 	this.draw(g,"rect");
@@ -419,10 +392,7 @@ function showValve1(){
 	var g=svg.append("g")
 	.attr("id",this.name)
 	.attr("class","movable object")
-	.attr("transform","translate("+this.pos[0]+","+this.pos[1]+")scale("+this.scales[0](this.size[0])+","+this.scales[1](this.size[1])+")"+"rotate("+this.rotate+","+this.origin[0]/2+","+this.origin[1]/2+")")
-	.on("mouseover",appear)
-	.on("mouseout",disappear)
-	.on("mousedown",press);
+	.attr("transform","translate("+this.pos[0]+","+this.pos[1]+")scale("+this.scales[0](this.size[0])+","+this.scales[1](this.size[1])+")"+"rotate("+this.rotate+","+this.origin[0]/2+","+this.origin[1]/2+")");
 	this.draw(g,"rect");
 }
 
@@ -443,10 +413,7 @@ function showValve2(){
 	var g=svg.append("g")
 	.attr("id",this.name)
 	.attr("class","movable object")
-	.attr("transform","translate("+this.pos[0]+","+this.pos[1]+")scale("+this.scales[0](this.size[0])+","+this.scales[1](this.size[1])+")"+"rotate("+this.rotate+","+this.origin[0]/2+","+this.origin[1]/2+")")
-	.on("mouseover",appear)
-	.on("mouseout",disappear)
-	.on("mousedown",press);
+	.attr("transform","translate("+this.pos[0]+","+this.pos[1]+")scale("+this.scales[0](this.size[0])+","+this.scales[1](this.size[1])+")"+"rotate("+this.rotate+","+this.origin[0]/2+","+this.origin[1]/2+")");
 	this.draw(g,"rect");
 }
 
@@ -469,10 +436,7 @@ function showValve3(){
 	var g=svg.append("g")
 	.attr("id",this.name)
 	.attr("class","movable object")
-	.attr("transform","translate("+this.pos[0]+","+this.pos[1]+")scale("+this.scales[0](this.size[0])+","+this.scales[1](this.size[1])+")"+"rotate("+this.rotate+","+this.origin[0]/2+","+this.origin[1]/2+")")
-	.on("mouseover",appear)
-	.on("mouseout",disappear)
-	.on("mousedown",press);
+	.attr("transform","translate("+this.pos[0]+","+this.pos[1]+")scale("+this.scales[0](this.size[0])+","+this.scales[1](this.size[1])+")"+"rotate("+this.rotate+","+this.origin[0]/2+","+this.origin[1]/2+")");
 	this.draw(g,"rect");
 }
 
@@ -495,10 +459,7 @@ function showValve4(){
 	var g=svg.append("g")
 	.attr("id",this.name)
 	.attr("class","movable object")
-	.attr("transform","translate("+this.pos[0]+","+this.pos[1]+")scale("+this.scales[0](this.size[0])+","+this.scales[1](this.size[1])+")"+"rotate("+this.rotate+","+this.origin[0]/2+","+this.origin[1]/2+")")
-	.on("mouseover",appear)
-	.on("mouseout",disappear)
-	.on("mousedown",press);
+	.attr("transform","translate("+this.pos[0]+","+this.pos[1]+")scale("+this.scales[0](this.size[0])+","+this.scales[1](this.size[1])+")"+"rotate("+this.rotate+","+this.origin[0]/2+","+this.origin[1]/2+")");
 	this.draw(g,"rect");
 	d3.select($(g[0][0]).find("rect:first")[0])
 	.classed("thick_border",true);
@@ -519,10 +480,7 @@ function showValve5(){
 	var g=svg.append("g")
 	.attr("id",this.name)
 	.attr("class","movable object")
-	.attr("transform","translate("+this.pos[0]+","+this.pos[1]+")scale("+this.scales[0](this.size[0])+","+this.scales[1](this.size[1])+")"+"rotate("+this.rotate+","+this.origin[0]/2+","+this.origin[1]/2+")")
-	.on("mouseover",appear)
-	.on("mouseout",disappear)
-	.on("mousedown",press);
+	.attr("transform","translate("+this.pos[0]+","+this.pos[1]+")scale("+this.scales[0](this.size[0])+","+this.scales[1](this.size[1])+")"+"rotate("+this.rotate+","+this.origin[0]/2+","+this.origin[1]/2+")");
 	this.draw(g,"rect");
 	this.draw(g,"polygon");
 	this.draw(g,"path");
@@ -539,10 +497,7 @@ function showValve6(){
 	var g=svg.append("g")
 	.attr("id",this.name)
 	.attr("class","movable object")
-	.attr("transform","translate("+this.pos[0]+","+this.pos[1]+")scale("+this.scales[0](this.size[0])+","+this.scales[1](this.size[1])+")"+"rotate("+this.rotate+","+this.origin[0]/2+","+this.origin[1]/2+")")
-	.on("mouseover",appear)
-	.on("mouseout",disappear)
-	.on("mousedown",press);
+	.attr("transform","translate("+this.pos[0]+","+this.pos[1]+")scale("+this.scales[0](this.size[0])+","+this.scales[1](this.size[1])+")"+"rotate("+this.rotate+","+this.origin[0]/2+","+this.origin[1]/2+")");
 	this.draw(g,"polygon");
 }
 
@@ -567,10 +522,7 @@ function showValve7(){
 	var g=svg.append("g")
 	.attr("id",this.name)
 	.attr("class","movable object")
-	.attr("transform","translate("+this.pos[0]+","+this.pos[1]+")scale("+this.scales[0](this.size[0])+","+this.scales[1](this.size[1])+")"+"rotate("+this.rotate+","+this.origin[0]/2+","+this.origin[1]/2+")")
-	.on("mouseover",appear)
-	.on("mouseout",disappear)
-	.on("mousedown",press);
+	.attr("transform","translate("+this.pos[0]+","+this.pos[1]+")scale("+this.scales[0](this.size[0])+","+this.scales[1](this.size[1])+")"+"rotate("+this.rotate+","+this.origin[0]/2+","+this.origin[1]/2+")");
 	this.draw(g,"rect");
 	this.draw(g,"polygon");
 }
@@ -590,10 +542,7 @@ function showValve8(){
 	var g=svg.append("g")
 	.attr("id",this.name)
 	.attr("class","movable object")
-	.attr("transform","translate("+this.pos[0]+","+this.pos[1]+")scale("+this.scales[0](this.size[0])+","+this.scales[1](this.size[1])+")"+"rotate("+this.rotate+","+this.origin[0]/2+","+this.origin[1]/2+")")
-	.on("mouseover",appear)
-	.on("mouseout",disappear)
-	.on("mousedown",press);
+	.attr("transform","translate("+this.pos[0]+","+this.pos[1]+")scale("+this.scales[0](this.size[0])+","+this.scales[1](this.size[1])+")"+"rotate("+this.rotate+","+this.origin[0]/2+","+this.origin[1]/2+")");
 	this.draw(g,"polygon");
 	this.draw(g,"rect");
 }
@@ -631,10 +580,7 @@ function showValve9(){
 	var g=svg.append("g")
 	.attr("id",this.name)
 	.attr("class","movable object")
-	.attr("transform","translate("+this.pos[0]+","+this.pos[1]+")scale("+this.scales[0](this.size[0])+","+this.scales[1](this.size[1])+")"+"rotate("+this.rotate+","+this.origin[0]/2+","+this.origin[1]/2+")")
-	.on("mouseover",appear)
-	.on("mouseout",disappear)
-	.on("mousedown",press);
+	.attr("transform","translate("+this.pos[0]+","+this.pos[1]+")scale("+this.scales[0](this.size[0])+","+this.scales[1](this.size[1])+")"+"rotate("+this.rotate+","+this.origin[0]/2+","+this.origin[1]/2+")");
 	this.draw(g,"polygon");
 	this.draw(g,"rect");
 	this.draw(g,"circle");
@@ -668,10 +614,7 @@ function showValve10(){
 	var g=svg.append("g")
 	.attr("id",this.name)
 	.attr("class","movable object")
-	.attr("transform","translate("+this.pos[0]+","+this.pos[1]+")scale("+this.scales[0](this.size[0])+","+this.scales[1](this.size[1])+")"+"rotate("+this.rotate+","+this.origin[0]/2+","+this.origin[1]/2+")")
-	.on("mouseover",appear)
-	.on("mouseout",disappear)
-	.on("mousedown",press);
+	.attr("transform","translate("+this.pos[0]+","+this.pos[1]+")scale("+this.scales[0](this.size[0])+","+this.scales[1](this.size[1])+")"+"rotate("+this.rotate+","+this.origin[0]/2+","+this.origin[1]/2+")");
 	this.draw(g,"rect");
 	this.draw(g,"circle");
 	this.draw(g,"line");
@@ -692,10 +635,7 @@ function showValve11(){
 	var g=svg.append("g")
 	.attr("id",this.name)
 	.attr("class","movable object")
-	.attr("transform","translate("+this.pos[0]+","+this.pos[1]+")scale("+this.scales[0](this.size[0])+","+this.scales[1](this.size[1])+")"+"rotate("+this.rotate+","+this.origin[0]/2+","+this.origin[1]/2+")")
-	.on("mouseover",appear)
-	.on("mouseout",disappear)
-	.on("mousedown",press);
+	.attr("transform","translate("+this.pos[0]+","+this.pos[1]+")scale("+this.scales[0](this.size[0])+","+this.scales[1](this.size[1])+")"+"rotate("+this.rotate+","+this.origin[0]/2+","+this.origin[1]/2+")");
 	this.draw(g,"circle");
 	d3.selectAll($(g[0][0]).find("circle"))
 	.classed("cyan_border",true)
@@ -723,10 +663,7 @@ function showMonitoring(){
 	var g=svg.append("g")
 	.attr("id",this.name)
 	.attr("class","movable object")
-	.attr("transform","translate("+this.pos[0]+","+this.pos[1]+")scale("+this.scales[0](this.size[0])+","+this.scales[1](this.size[1])+")"+"rotate("+this.rotate+","+this.origin[0]/2+","+this.origin[1]/2+")")
-	.on("mouseover",appear)
-	.on("mouseout",disappear)
-	.on("mousedown",press);
+	.attr("transform","translate("+this.pos[0]+","+this.pos[1]+")scale("+this.scales[0](this.size[0])+","+this.scales[1](this.size[1])+")"+"rotate("+this.rotate+","+this.origin[0]/2+","+this.origin[1]/2+")");
 	this.draw(g,"rect");
 	this.draw(g,"circle");
 }
@@ -748,10 +685,7 @@ function showDiode(){
 	var g=svg.append("g")
 	.attr("id",this.name)
 	.attr("class","movable object")
-	.attr("transform","translate("+this.pos[0]+","+this.pos[1]+")scale("+this.scales[0](this.size[0])+","+this.scales[1](this.size[1])+")"+"rotate("+this.rotate+","+this.origin[0]/2+","+this.origin[1]/2+")")
-	.on("mouseover",appear)
-	.on("mouseout",disappear)
-	.on("mousedown",press);
+	.attr("transform","translate("+this.pos[0]+","+this.pos[1]+")scale("+this.scales[0](this.size[0])+","+this.scales[1](this.size[1])+")"+"rotate("+this.rotate+","+this.origin[0]/2+","+this.origin[1]/2+")");
 	this.draw(g,"polygon");
 	this.draw(g,"line");
 	d3.selectAll($(g[0][0]).find("*"))
@@ -771,10 +705,7 @@ function showArrow(){
 	var g=svg.append("g")
 	.attr("id",this.name)
 	.attr("class","movable object")
-	.attr("transform","translate("+this.pos[0]+","+this.pos[1]+")scale("+this.scales[0](this.size[0])+","+this.scales[1](this.size[1])+")"+"rotate("+this.rotate+","+this.origin[0]/2+","+this.origin[1]/2+")")
-	.on("mouseover",appear)
-	.on("mouseout",disappear)
-	.on("mousedown",press);
+	.attr("transform","translate("+this.pos[0]+","+this.pos[1]+")scale("+this.scales[0](this.size[0])+","+this.scales[1](this.size[1])+")"+"rotate("+this.rotate+","+this.origin[0]/2+","+this.origin[1]/2+")");
 	this.draw(g,"polygon");
 	d3.selectAll($(g[0][0]).find("*"))
 	.classed("thick_border",true);
@@ -793,10 +724,7 @@ function showCapacitor(){
 	var g=svg.append("g")
 	.attr("id",this.name)
 	.attr("class","movable object")
-	.attr("transform","translate("+this.pos[0]+","+this.pos[1]+")scale("+this.scales[0](this.size[0])+","+this.scales[1](this.size[1])+")"+"rotate("+this.rotate+","+this.origin[0]/2+","+this.origin[1]/2+")")
-	.on("mouseover",appear)
-	.on("mouseout",disappear)
-	.on("mousedown",press);
+	.attr("transform","translate("+this.pos[0]+","+this.pos[1]+")scale("+this.scales[0](this.size[0])+","+this.scales[1](this.size[1])+")"+"rotate("+this.rotate+","+this.origin[0]/2+","+this.origin[1]/2+")");
 	this.draw(g,"line");
 	d3.selectAll($(g[0][0]).find("*"))
 	.classed("thick_border",true);
@@ -821,10 +749,7 @@ function showNozzle(){
 	var g=svg.append("g")
 	.attr("id",this.name)
 	.attr("class","movable object")
-	.attr("transform","translate("+this.pos[0]+","+this.pos[1]+")scale("+this.scales[0](this.size[0])+","+this.scales[1](this.size[1])+")"+"rotate("+this.rotate+","+this.origin[0]/2+","+this.origin[1]/2+")")
-	.on("mouseover",appear)
-	.on("mouseout",disappear)
-	.on("mousedown",press);
+	.attr("transform","translate("+this.pos[0]+","+this.pos[1]+")scale("+this.scales[0](this.size[0])+","+this.scales[1](this.size[1])+")"+"rotate("+this.rotate+","+this.origin[0]/2+","+this.origin[1]/2+")");
 	this.draw(g,"rect");
 	this.draw(g,"polygon");
 }
@@ -841,11 +766,13 @@ function showText() {
 			 .attr("id", this.name)
 			 .attr("class", "movable object")
 			 .attr("transform", "translate("+this.pos[0]+","+this.pos[1]+")scale("+this.scales[0](this.size[0])
-			 	+","+this.scales[1](this.size[1])+")"+"rotate("+this.rotate+","+this.origin[0]/2+","+this.origin[1]/2+")")
-			 .on("mouseover", appear)
-			 .on("mouseout", disappear)
-			 .on("mousedown", press)
-			 .on("dblclick", textEdit);
+			 	+","+this.scales[1](this.size[1])+")"+"rotate("+this.rotate+","+this.origin[0]/2+","+this.origin[1]/2+")");
+	if(this.dataID!=""){
+		g.classed("data_"+this.dataID,true)
+		.classed("dataDisplay",true)
+		.append("title")
+		.text("data: "+this.dataID);
+	}
 	this.draw(g, "text");
 }
 
@@ -865,9 +792,7 @@ function showConnection() {
 		.attr("class", "movable object connection")
 		.attr("transform", "translate("+this.pos[0]+","+this.pos[1]+")scale("+this.scales[0](this.size[0])
 		+","+this.scales[1](this.size[1])+")"+"rotate("+this.rotate+","+this.origin[0]/2+","+this.origin[1]/2+")")
-		.on("mouseover", appear)
-		.on("mouseout", disappear)
-		.on("mousedown", press)
+		
 		.on("dblclick", connectEdit); 		
 	}
 	else{
@@ -875,11 +800,7 @@ function showConnection() {
 				 .attr("id", this.name)
 				 .attr("class", "movable object connection")
 				 .attr("transform", "translate("+this.pos[0]+","+this.pos[1]+")scale("+this.scales[0](this.size[0])
-				 +","+this.scales[1](this.size[1])+")"+"rotate("+this.rotate+","+this.origin[0]/2+","+this.origin[1]/2+")")
-				 .on("mouseover", appear)
-				 .on("mouseout", disappear)
-				 .on("mousedown", press)
-			 	 .on("dblclick", connectEdit);;
+				 +","+this.scales[1](this.size[1])+")"+"rotate("+this.rotate+","+this.origin[0]/2+","+this.origin[1]/2+")");
 		this.draw(g, "path");
 		d3.selectAll($(g[0][0]).find("*"))
 		.attr("stroke",this.color)
@@ -907,6 +828,7 @@ function reviseConnection(){
 }
 
 function drawFrame(pos, size, rotate, id){
+	/*
 	var g=svg.append("g")
 	.attr("class","resize")
 	.attr("id","resize"+id)
@@ -956,6 +878,7 @@ function drawFrame(pos, size, rotate, id){
 	.attr("class","frame drag drag_bottomright")
 	.on("mouseover",function(){if(!Mouse.resize) Mouse.dragID="bottomright"})
 	.on("mouseout",function(){if(!Mouse.resize) Mouse.dragID="";});
+	*/
 }
 
 function draw(g, type){
@@ -976,7 +899,8 @@ function draw(g, type){
 				.attr("cx",d[0])
 				.attr("cy",d[1])
 				.attr("r",d[2])
-				.attr("fill",this.circle_fills[i]);
+				.attr("fill",this.circle_fills[i])
+				.classed("normal",true);
 			}
 		break;
 		case "rect":
@@ -987,7 +911,8 @@ function draw(g, type){
 				.attr("y",d[1])
 				.attr("width",d[2])
 				.attr("height",d[3])
-				.attr("fill",this.rect_fills[i]);
+				.attr("fill",this.rect_fills[i])
+				.classed("normal",true);
 			}
 		break;
 		case "polygon":
@@ -995,7 +920,8 @@ function draw(g, type){
 				var d=this.polygons[i];
 				g.append("polygon")
 				.attr("points",d)
-				.attr("fill",this.poly_fills[i]);
+				.attr("fill",this.poly_fills[i])
+				.classed("normal",true);
 			}
 		break;
 		case "line":
@@ -1006,7 +932,8 @@ function draw(g, type){
 				.attr("x1",d[0])
 				.attr("y1",d[1])
 				.attr("x2",d[2])
-				.attr("y2",d[3]);
+				.attr("y2",d[3])
+				.classed("normal",true);
 			}
 		break;
 		//AJI changed here
@@ -1036,5 +963,72 @@ function draw(g, type){
 						.attr("font-size", this.originTextSize);
 			};
 		break;
+	}
+}
+
+function drawTimeline(){
+	if(false){
+		var s=this.scales;
+		this.g.selectAll("path")
+		.data(myData.items)
+		.enter()
+		.append("path")
+		.attr("class","timeline")
+		.attr("d",function(d){
+			var td=d.data;
+			var k=false, t="";
+			for(var i in td){
+				if(!k){
+					t+="M"+s[0](i)+","+s[1](td[i]);
+					k=true;
+					continue;
+				}
+				t+=" L"+s[0](i)+","+s[1](td[i]);
+			}
+			return t;
+		})
+		.append("title")
+		.text(function(d){return d.ID;});
+		var xAxis=d3.svg.axis()
+		.scale(s[0])
+		.orient("bottom");
+		this.g.append("g")
+		.attr("class","Axis")
+		.attr("transform","translate(0,"+this.size[1]+")")
+		.call(xAxis);
+		var yAxis=d3.svg.axis()
+		.scale(s[1])
+		.orient("left")
+		.ticks(3);
+		this.g.append("g")
+		.attr("class","Axis")
+		.call(yAxis);
+	}
+	else{
+		var s=this.scales, s2=this.stack, sc=this.col;
+		var n=s2.range();
+		var t=this.g.selectAll("path")
+		.data(myData.items)
+		.enter()
+		.append("g")
+		.attr("id",function(d){return "line"+d.ID;});
+		for(var i=0; i<myData.attrs.length-1; i++){
+			var d1=myData.attrs[i], d2=myData.attrs[i+1];
+			t.append("line")
+			.attr("x1",function(m){return s[0](d1);})
+			.attr("x2",function(m){return s[0](d2);})
+			.attr("y1",function(m,j){return s2(m.data[d1])+(j/0.4+0.3)*n[0];})
+			.attr("y2",function(m,j){return s2(m.data[d2])+(j/0.4+0.3)*n[0];})
+			.attr("stroke",function(m){return sc(m.data[d1]);})
+			.attr("class","timeline")
+			.on("mouseover",function(m){
+				highlight(m.ID,true);
+			})
+			.on("mouseout",function(m){
+				highlight(m.ID,false);
+			})
+			.append("title")
+			.text(function(m){return m.ID;});
+		}	
 	}
 }
