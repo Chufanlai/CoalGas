@@ -4,20 +4,6 @@ body{
    -ms-user-select: none;   /*IE10*/
    -khtml-user-select: none; /*Earlier*/
    user-select: none;
-   background: #489191;
-}
-
-th{
-	text-align: center;
-}
-
-td{
-	text-align: center;
-	cursor: pointer;
-}
-
-rect#background{
-	stroke:none;
 }
 
 path.normal{
@@ -40,15 +26,6 @@ path.pipe{
 	stroke-miterlimit: 10;
 }
 
-path.timeline{
-	fill:none;
-	stroke-width: 3;
-	opacity: 0.3;
-	stroke: #000000;
-	stroke-linejoin: round;
-	stroke-miterlimit: 10;
-}
-
 polygon{
 	stroke-width: 1;
 	stroke: #000000;
@@ -58,22 +35,11 @@ polygon{
 	stroke-miterlimit: 10;
 }
 
-#canvas line{
+line{
 	stroke-width: 1;
 	stroke: #000000;
 	stroke-linejoin: round;
 	stroke-miterlimit: 10;
-}
-
-#vis_1 line.timeline{
-	stroke-width: 8;
-	opacity: 0.3;
-	stroke-linejoin: round;
-	stroke-miterlimit: 10;	
-}
-
-#vis_1 line.timeline.highlight{
-	opacity: 1;
 }
 
 rect{
@@ -106,10 +72,6 @@ a:hover{
 	text-decoration:none;
 }
 
-.normal{
-	stroke-width: 1;
-}
-
 .thick_border{
 	stroke-width: 10;
 }
@@ -119,11 +81,7 @@ a:hover{
 }
 
 .movable{
-	cursor: default;
-}
-
-.myBtn{
-	cursor: pointer;
+	cursor: move;
 }
 
 .frame{
@@ -158,12 +116,6 @@ a:hover{
 	margin-top:10px;
 }
 
-#myTable-container{
-	font-size: 12px;
-	padding: 5px;
-	background: #EEE;
-}
-
 .drag{
 	fill: #000;
 	stroke: none;
@@ -188,16 +140,4 @@ a:hover{
 
 .drag_bottomright{
 	cursor: se-resize;
-}
-
-.highlight text{
-	fill: #F00;
-}
-
-.Axis path{
-	fill:none;
-	stroke-width: 1;
-	stroke: #000000;
-	stroke-linejoin: round;
-	stroke-miterlimit: 10;
 }

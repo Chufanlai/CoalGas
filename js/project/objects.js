@@ -688,7 +688,6 @@ function createText(pos, width, rotate, value, name) {
 	o.getOriginalText();
 
 	o.color=value[2];
-	o.dataID=value[3];
 	o.pos=pos;
 	var twidth=width/(o.vertical?o.asp:1);
 	o.size=[twidth,twidth*o.asp];
@@ -744,46 +743,6 @@ function createLoad(){
 
 	o.get=getData;
 	o.load=readLayout;
-	o.scrSize=[];
-	o.test=formatTest;
-
-	return o;
-}
-
-function createData(){
-	var o={};
-
-	o.load=readData;
-	o.empty=clearData;
-	o.data;
-	o.disp;
-	o.dTable;
-	o.table;
-	o.tableOpts={
-    			scrollY: 350,
-				lengthChange: false,
-				searching: true,
-				pagingType: "full",
-				language:{
-					info: "No._START_ - _END_, Page _PAGE_ of _PAGES_",
-					paginate:{						
-						first: "|<",
-						last: ">|",
-						previous: "<<",
-						next: ">>",
-					}
-				},
-				search:{
-					smart: true,
-				}
-			};
-	o.ready=false;
-	o.items;
-	o.attrs;
-
-	o.update=updateTable;
-	o.preLoad=preLoad;
-	o.init=initDataItems;
 
 	return o;
 }
@@ -810,8 +769,6 @@ function createMouse(){
 	o.zooming=false;
 	o.zoomed=false;
 	o.zoomSize=[];
-	o.zoomOrigin=[1,1];
-	o.zoomScale=[1,1];
 	o.connectStart=[];
 	o.connectPath=[];
 	o.connectSize=[];
@@ -863,39 +820,4 @@ function getOriginalText(){
 	this.scales=[
 	d3.scale.linear().domain([0,this.origin[0]]).range([0,1]),
 	d3.scale.linear().domain([0,this.origin[1]]).range([0,1])];
-}
-
-function createVis1(svg, pos, size, marks){
-	var o={};
-
-	o.g=svg.append("g")
-	.attr("transform","translate("+pos+")");
-	o.pos=pos;
-	o.size=size;
-	o.marks=marks;
-	var t=[], s=d3.interpolate(0,o.size[0]);
-	for(var i in marks){
-		t.push(s(i/(marks.length-1)));
-	}
-	o.scales=[d3.scale.ordinal().domain(marks).range(t), d3.scale.linear().domain([0,1]).range([o.size[1],0])];
-	o.col=d3.interpolate("#0F0","#F00");
-	o.stack=d3.scale.linear().domain([0,1]).range([o.size[1]*0.4/myData.attrs.length,0]);
-
-	o.draw=drawTimeline;
-
-	return o;
-}
-
-function createItem(data, bound){
-	var o={};
-
-	o.ID=data.ID;
-	o.thres=bound.slice(0);
-	o.bound=bound;
-	o.display=false;
-	o.data=normalize(data, bound);
-
-	o.highlight=dataHighlight;
-
-	return o;
 }
