@@ -209,10 +209,6 @@ $("#setConnect").on("click", function (e) {
 	var color=$("#TextColorPicker");
 	var title=$("#inputContent");
 
-	color.bind("change",function(){
-		title.css("color",this.value)
-	});
-
 	textColor=$("#TextColorPicker").cxColor();
 })();
 
